@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getMenuItems, addMenuItem, deleteMenuItem, uploadImage } from '@/lib/actions/database';
-import { Plus, Trash, Edit2, Loader2, Image as ImageIcon, ArrowUpRight, ChefHat, GlassWater } from 'lucide-react';
+import { Plus, Trash, Edit2, Loader2, Image as ImageIcon, ArrowUpRight, ChefHat, GlassWater, X } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface MenuItem {
