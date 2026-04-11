@@ -2,8 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { submitBookingRequest, getEventTypes, getCulinaryStyles } from '@/lib/actions/database';
 import { toast } from 'sonner';
 import { 
@@ -71,67 +69,71 @@ export default function BookEventPage() {
     });
 
     if (res.success) {
-      toast.success('Your booking request has been received!');
+      toast.success('Your booking request has been received!', {
+          className: 'bg-black/90 border border-white/10 text-white font-outfit',
+      });
       setStep(4); // Success step
     } else {
-      toast.error('Something went wrong. Please try again.');
+      toast.error('Something went wrong. Please try again.', {
+          className: 'bg-black/90 border border-red-500/50 text-white font-outfit',
+      });
     }
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
-      <Header />
+    <div className="min-h-screen bg-[#050505] text-white font-outfit selection:bg-primary selection:text-black">
       
-      <main className="pt-20 sm:pt-28 md:pt-32 pb-16 sm:pb-20 md:pb-24 relative overflow-hidden">
+      <main className="pt-32 pb-24 relative overflow-hidden">
         {/* Background Visuals */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 blur-[150px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 blur-[150px] rounded-full translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+        <div className="fixed top-0 right-0 w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-primary/5 blur-[150px] rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none mix-blend-screen" />
+        <div className="fixed bottom-0 left-0 w-[60vw] h-[60vw] md:w-[600px] md:h-[600px] bg-white/5 blur-[150px] rounded-full translate-y-1/2 -translate-x-1/3 pointer-events-none mix-blend-screen" />
 
-        <div className="container mx-auto px-4 sm:px-6 max-w-5xl relative z-10">
-          <div className="text-center mb-6 sm:mb-10 md:mb-16 space-y-2 sm:space-y-4">
+        <div className="container mx-auto px-6 max-w-6xl relative z-10">
+          <div className="text-center mb-16 space-y-4 pt-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-primary/10 text-primary text-[10px] sm:text-xs font-bold uppercase tracking-widest"
+              className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-white/5 bg-white/[0.02] backdrop-blur-md text-[10px] font-black uppercase tracking-[0.3em] text-primary"
             >
-              <Star size={14} className="fill-primary" />
-              Event Planning & Reservations
+              <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              Event Reservations
             </motion.div>
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-heading font-extrabold tracking-tight leading-tight"
+              className="text-[clamp(3rem,8vw,5.5rem)] font-heading font-black tracking-tighter leading-[0.9] drop-shadow-2xl uppercase"
             >
-              Book Your <span className="text-primary italic">Signature</span> Event.
+              Book Your <span className="text-primary italic font-serif">Signature</span>
+              <br />Event.
             </motion.h1>
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-sm sm:text-base md:text-lg text-muted-foreground font-light max-w-2xl mx-auto px-1 sm:px-2 leading-relaxed"
+              className="text-lg md:text-xl text-white/40 font-medium max-w-2xl mx-auto leading-relaxed"
             >
-              Tell us about your celebration, and our culinary team will craft a customized experience that exceeds every expectation.
+              Tell us about your celebration, and our culinary team will craft a bespoke gastronomic experience tailored precisely for you.
             </motion.p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 items-start mt-20">
             {/* Step Indicator (Desktop) */}
-            <div className="hidden lg:flex flex-col gap-8 lg:col-span-1 border-l border-border pl-8">
+            <div className="hidden lg:flex flex-col gap-10 lg:col-span-1 border-l border-white/5 pl-8">
               {[
                 { s: 1, label: 'Event Details', icon: Calendar },
-                { s: 2, label: 'Selection', icon: Utensils },
-                { s: 3, label: 'Personal Info', icon: ShieldCheck },
+                { s: 2, label: 'Menu Curation', icon: Utensils },
+                { s: 3, label: 'Client Dossier', icon: ShieldCheck },
               ].map((item) => (
                 <div 
                   key={item.s} 
-                  className={`flex items-center gap-4 transition-all ${step === item.s ? 'text-primary scale-105' : 'text-muted-foreground opacity-50'}`}
+                  className={`flex items-center gap-4 transition-all duration-500 ${step === item.s ? 'text-primary' : 'text-white/20'}`}
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${step === item.s ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30' : 'bg-secondary'}`}>
+                  <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 border ${step === item.s ? 'bg-primary/10 border-primary/20 text-primary shadow-[0_0_20px_rgba(255,204,0,0.2)]' : 'bg-white/5 border-white/5 text-white/30'}`}>
                     <item.icon size={20} />
                   </div>
-                  <span className="font-bold text-sm uppercase tracking-widest">{item.label}</span>
+                  <span className="font-black text-xs uppercase tracking-[0.2em]">{item.label}</span>
                 </div>
               ))}
             </div>
@@ -142,19 +144,21 @@ export default function BookEventPage() {
                 key={step}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="bg-card/50 backdrop-blur-2xl border border-white/20 rounded-2xl sm:rounded-3xl md:rounded-[3rem] p-5 sm:p-6 md:p-8 lg:p-12 shadow-2xl overflow-hidden relative"
+                className="bg-black/40 backdrop-blur-3xl border border-white/5 rounded-[3rem] p-8 md:p-14 shadow-2xl relative overflow-hidden"
               >
                 {step < 4 && (
                   <form onSubmit={step === 3 ? handleSubmit : (e) => { e.preventDefault(); nextStep(); }}>
                     {/* Step 1: Event Context */}
                     {step === 1 && (
-                      <div className="space-y-4 sm:space-y-6 md:space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
-                        <div className="grid gap-4 sm:gap-6">
-                          <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">What kind of event are we planning?</label>
+                      <div className="space-y-10 animate-in fade-in slide-in-from-right-8 duration-700">
+                        <div className="grid gap-6">
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-3">
+                              <span className="w-8 h-[1px] bg-white/20" /> Event Topology
+                          </label>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {fetchingEvents ? (
                               Array(4).fill(0).map((_, i) => (
-                                <Skeleton key={i} className="h-32 rounded-3xl" />
+                                <Skeleton key={i} className="h-32 rounded-[2rem] bg-white/5 border border-white/5" />
                               ))
                             ) : (
                               eventTypes.map((type) => (
@@ -162,53 +166,54 @@ export default function BookEventPage() {
                                   key={type.id}
                                   type="button"
                                   onClick={() => setFormData({...formData, eventType: type.label})}
-                                  className={`flex flex-col items-start p-4 sm:p-6 rounded-3xl border-2 transition-all text-left group box-border ${formData.eventType === type.label ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/30 bg-background/50'}`}
+                                  className={`flex flex-col items-start p-6 rounded-[2rem] border transition-all text-left group box-border ${formData.eventType === type.label ? 'border-primary/50 bg-primary/10 shadow-[0_0_30px_rgba(255,204,0,0.1)]' : 'border-white/5 hover:border-white/10 bg-white/[0.02]'}`}
                                 >
-                                  <span className="text-2xl sm:text-3xl mb-2 sm:mb-3 block">{type.icon}</span>
-                                  <span className="font-bold text-base sm:text-lg mb-1">{type.label}</span>
-                                  <span className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed line-clamp-2">{type.description}</span>
+                                  <span className="text-3xl mb-4">{type.icon}</span>
+                                  <span className="font-bold text-lg mb-2 tracking-tight text-white">{type.label}</span>
+                                  <span className="text-xs text-white/40 leading-relaxed font-medium">{type.description}</span>
                                 </button>
                               ))
                             )}
                           </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
-                          <div className="space-y-3">
-                            <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-                              <Calendar size={16} /> Event Date
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-4">
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
+                              <Calendar size={14} /> Chronology
                             </label>
                             <input 
                               type="date" 
                               required
                               value={formData.date}
                               onChange={e => setFormData({...formData, date: e.target.value})}
-                              className="w-full p-5 rounded-2xl bg-background/80 border border-border focus:ring-2 focus:ring-primary outline-none transition-all text-foreground" 
+                              style={{ colorScheme: 'dark' }}
+                              className="w-full p-6 rounded-[1.5rem] bg-white/5 border border-white/10 focus:border-primary/50 focus:bg-white/10 outline-none transition-all text-white font-medium" 
                             />
                           </div>
-                          <div className="space-y-3">
-                            <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-                              <Users size={16} /> Expected Guests
+                          <div className="space-y-4">
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
+                              <Users size={14} /> Headcount
                             </label>
                             <input 
                               type="number" 
-                              placeholder="e.g. 250"
+                              placeholder="e.g. 250 Guests"
                               required
                               value={formData.guests}
                               onChange={e => setFormData({...formData, guests: e.target.value})}
-                              className="w-full p-5 rounded-2xl bg-background/80 border border-border focus:ring-2 focus:ring-primary outline-none transition-all text-foreground" 
+                              className="w-full p-6 rounded-[1.5rem] bg-white/5 border border-white/10 focus:border-primary/50 focus:bg-white/10 outline-none transition-all text-white font-medium placeholder:text-white/20" 
                             />
                           </div>
                         </div>
 
-                        <div className="flex justify-end pt-8">
+                        <div className="flex justify-end pt-8 border-t border-white/5 mt-8">
                           <button 
                             type="button" 
                             disabled={!formData.eventType || !formData.date || !formData.guests}
                             onClick={nextStep}
-                            className="bg-primary text-primary-foreground px-6 py-3.5 sm:px-10 sm:py-5 rounded-2xl font-bold text-sm sm:text-lg shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50 disabled:hover:scale-100"
+                            className="bg-primary text-black px-10 py-5 rounded-2xl font-bold uppercase tracking-widest text-xs shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
                           >
-                            Next Selection <ChevronRight size={20} />
+                            Proceed to Menu <ChevronRight size={18} />
                           </button>
                         </div>
                       </div>
@@ -216,13 +221,15 @@ export default function BookEventPage() {
 
                     {/* Step 2: Culinary Preferences */}
                     {step === 2 && (
-                      <div className="space-y-4 sm:space-y-6 md:space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
-                        <div className="grid gap-4 sm:gap-6">
-                          <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Select Your Culinary Style</label>
+                      <div className="space-y-10 animate-in fade-in slide-in-from-right-8 duration-700">
+                        <div className="grid gap-6">
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-3">
+                            <span className="w-8 h-[1px] bg-white/20" /> Culinary Theme
+                          </label>
                           <div className="grid grid-cols-1 gap-4">
                             {fetchingStyles ? (
                               Array(3).fill(0).map((_, i) => (
-                                <Skeleton key={i} className="h-24 rounded-3xl" />
+                                <Skeleton key={i} className="h-28 rounded-[2rem] bg-white/5 border border-white/5" />
                               ))
                             ) : (
                               culinaryStyles.map((style) => (
@@ -230,69 +237,50 @@ export default function BookEventPage() {
                                   <button
                                     type="button"
                                     onClick={() => setFormData({...formData, menuPreference: style.label})}
-                                    className={`w-full flex items-center gap-4 sm:gap-6 p-4 sm:p-6 rounded-[2rem] border-2 transition-all text-left box-border ${formData.menuPreference === style.label ? 'border-primary bg-primary/5 shadow-inner' : 'border-border hover:border-primary/20 bg-background/50'}`}
+                                    className={`w-full flex items-center gap-6 p-6 rounded-[2rem] border transition-all text-left box-border ${formData.menuPreference === style.label ? 'border-primary/50 bg-primary/10 shadow-[0_0_30px_rgba(255,204,0,0.1)]' : 'border-white/5 hover:border-white/10 bg-white/[0.02]'}`}
                                   >
-                                    <span className="text-2xl sm:text-3xl">{style.icon}</span>
+                                    <span className="text-3xl md:text-4xl">{style.icon}</span>
                                     <div className="flex-1">
-                                      <span className="font-bold text-base sm:text-xl block">{style.label}</span>
-                                      <span className="text-[11px] sm:text-xs text-muted-foreground line-clamp-1">{style.description}</span>
+                                      <span className="font-bold text-xl block tracking-tight text-white">{style.label}</span>
+                                      <span className="text-xs text-white/40 mt-1 block">{style.description}</span>
                                     </div>
-                                    {formData.menuPreference === style.label && <CheckCircle2 className="text-primary sm:text-primary" size={20} />}
+                                    {formData.menuPreference === style.label && <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary text-primary flex items-center justify-center shrink-0"><CheckCircle2 size={16} /></div>}
                                   </button>
-                                  
-                                  <AnimatePresence>
-                                    {formData.menuPreference === style.label && style.contents && style.contents.length > 0 && (
-                                      <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: 'auto' }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        className="px-5 sm:px-8 pb-5 sm:pb-6 -mt-4 pt-7 sm:pt-8 bg-primary/[0.02] border-x-2 border-b-2 border-primary/20 rounded-b-[2rem] mx-4"
-                                      >
-                                        <div className="flex items-center gap-2 mb-3 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-primary/60">
-                                          <Utensils size={12} /> Chef's Picks for {style.label}
-                                        </div>
-                                        <div className="flex flex-wrap gap-2">
-                                          {style.contents.map((c: string, idx: number) => (
-                                            <span key={idx} className="bg-white/40 text-[9px] sm:text-[10px] font-bold px-2 py-1 rounded-md border border-white/60 shadow-sm">{c}</span>
-                                          ))}
-                                        </div>
-                                      </motion.div>
-                                    )}
-                                  </AnimatePresence>
                                 </div>
                               ))
                             )}
                           </div>
                         </div>
 
-                        <div className="space-y-3">
-                          <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-                            <MapPin size={16} /> Venue Address / Location
+                        <div className="space-y-4">
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
+                            <MapPin size={14} /> Venue Assignment
                           </label>
                           <input 
                             type="text" 
                             required
+                            placeholder="Full address or location name..."
                             value={formData.venue}
                             onChange={e => setFormData({...formData, venue: e.target.value})}
-                            className="w-full p-5 rounded-2xl bg-background/80 border border-border focus:ring-2 focus:ring-primary outline-none transition-all text-foreground" 
+                            className="w-full p-6 rounded-[1.5rem] bg-white/5 border border-white/10 focus:border-primary/50 focus:bg-white/10 outline-none transition-all text-white font-medium placeholder:text-white/20" 
                           />
                         </div>
 
-                        <div className="flex justify-between pt-8">
+                        <div className="flex justify-between items-center pt-8 border-t border-white/5 mt-8">
                           <button 
                             type="button" 
                             onClick={prevStep}
-                            className="text-muted-foreground font-bold hover:text-foreground transition-colors"
+                            className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors p-4"
                           >
-                            Back
+                            Go Back
                           </button>
                           <button 
                             type="button"
                             disabled={!formData.menuPreference || !formData.venue}
                             onClick={nextStep}
-                            className="bg-primary text-primary-foreground px-6 py-3.5 sm:px-10 sm:py-5 rounded-2xl font-bold text-sm sm:text-lg shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2 disabled:opacity-50 disabled:hover:scale-100"
+                            className="bg-primary text-black px-10 py-5 rounded-2xl font-bold uppercase tracking-widest text-xs shadow-2xl hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
                           >
-                            Add Contact Info <ChevronRight size={20} />
+                            Finalize Details <ChevronRight size={18} />
                           </button>
                         </div>
                       </div>
@@ -300,72 +288,72 @@ export default function BookEventPage() {
 
                     {/* Step 3: Final Contact */}
                     {step === 3 && (
-                      <div className="space-y-4 sm:space-y-6 md:space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-                          <div className="space-y-3">
-                            <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
+                      <div className="space-y-10 animate-in fade-in slide-in-from-right-8 duration-700">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-4">
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Client Identifier</label>
                             <input 
                               type="text" 
                               required
                               value={formData.name}
                               onChange={e => setFormData({...formData, name: e.target.value})}
-                              placeholder="John Doe"
-                              className="w-full p-5 rounded-2xl bg-background border border-border focus:ring-2 focus:ring-primary outline-none transition-all text-foreground" 
+                              placeholder="Full Name"
+                              className="w-full p-6 rounded-[1.5rem] bg-white/5 border border-white/10 focus:border-primary/50 focus:bg-white/10 outline-none transition-all text-white font-medium placeholder:text-white/20" 
                             />
                           </div>
-                          <div className="space-y-3">
-                            <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Phone Number</label>
+                          <div className="space-y-4">
+                            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Direct Line</label>
                             <input 
                               type="tel" 
                               required
                               value={formData.phone}
                               onChange={e => setFormData({...formData, phone: e.target.value})}
-                              placeholder="+91 00000 00000"
-                              className="w-full p-5 rounded-2xl bg-background border border-border focus:ring-2 focus:ring-primary outline-none transition-all text-foreground" 
+                              placeholder="+91 .."
+                              className="w-full p-6 rounded-[1.5rem] bg-white/5 border border-white/10 focus:border-primary/50 focus:bg-white/10 outline-none transition-all text-white font-medium placeholder:text-white/20" 
                             />
                           </div>
                         </div>
 
-                        <div className="space-y-3">
-                          <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
+                        <div className="space-y-4">
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Digital Comm</label>
                           <input 
                             type="email" 
                             required
                             value={formData.email}
                             onChange={e => setFormData({...formData, email: e.target.value})}
-                            placeholder="john@example.com"
-                            className="w-full p-5 rounded-2xl bg-background border border-border focus:ring-2 focus:ring-primary outline-none transition-all text-foreground" 
+                            placeholder="Email Address"
+                            className="w-full p-6 rounded-[1.5rem] bg-white/5 border border-white/10 focus:border-primary/50 focus:bg-white/10 outline-none transition-all text-white font-medium placeholder:text-white/20" 
                           />
                         </div>
 
-                        <div className="space-y-3">
-                          <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
-                             <MessageSquare size={16} /> Any Special Requirements?
+                        <div className="space-y-4">
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 flex items-center gap-2">
+                             <MessageSquare size={14} /> Directives & Allergies
                           </label>
                           <textarea 
                             rows={4}
                             value={formData.message}
                             onChange={e => setFormData({...formData, message: e.target.value})}
-                            placeholder="Allergies, specific themes, or dietary restrictions..."
-                            className="w-full p-5 rounded-2xl bg-background border border-border focus:ring-2 focus:ring-primary outline-none transition-all resize-none text-foreground" 
+                            placeholder="Specific dietary requirements, floral thematic ideas, etc..."
+                            className="w-full p-6 rounded-[1.5rem] bg-white/5 border border-white/10 focus:border-primary/50 focus:bg-white/10 outline-none transition-all resize-none text-white font-medium placeholder:text-white/20" 
                           />
                         </div>
 
-                        <div className="flex justify-between pt-8">
+                        <div className="flex justify-between items-center pt-8 border-t border-white/5 mt-8">
                           <button 
                             type="button" 
                             onClick={prevStep}
-                            className="text-muted-foreground font-bold hover:text-foreground transition-colors"
+                            className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40 hover:text-white transition-colors p-4"
                           >
-                            Back
+                            Go Back
                           </button>
                           <button 
                             type="submit" 
                             disabled={loading || !formData.name || !formData.phone || !formData.email}
-                            className="bg-primary text-primary-foreground px-6 py-3.5 sm:px-12 sm:py-6 rounded-2xl font-bold text-sm sm:text-xl shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
+                            className="bg-primary text-black px-10 py-6 rounded-2xl font-bold uppercase tracking-[0.2em] text-xs shadow-[0_0_40px_rgba(255,204,0,0.3)] hover:scale-[1.02] active:scale-95 transition-all flex items-center gap-3 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed group"
                           >
-                            {loading ? <Loader2 size={20} className="sm:size-6 animate-spin" /> : <ArrowRight size={20} className="sm:size-6" />}
-                            Confirm Booking Request
+                            {loading ? <Loader2 size={18} className="animate-spin" /> : <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
+                            Execute Booking
                           </button>
                         </div>
                       </div>
@@ -375,25 +363,25 @@ export default function BookEventPage() {
 
                 {/* Success State */}
                 {step === 4 && (
-                  <div className="text-center py-16 space-y-8 animate-in zoom-in-95 duration-700">
-                    <div className="w-24 h-24 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto ring-4 ring-green-500/10">
-                      <CheckCircle2 size={56} />
+                  <div className="text-center py-20 space-y-10 animate-in zoom-in-95 duration-700">
+                    <div className="w-32 h-32 bg-primary/10 text-primary rounded-[2rem] flex items-center justify-center mx-auto border border-primary/20 shadow-[0_0_50px_rgba(255,204,0,0.2)]">
+                      <CheckCircle2 size={64} />
                     </div>
                     <div className="space-y-4">
-                      <h2 className="text-4xl font-heading font-black">Booking Initiated!</h2>
-                      <p className="text-xl text-muted-foreground max-w-md mx-auto leading-relaxed">
-                        Thank you, <span className="text-foreground font-bold">{formData.name}</span>. Our expert event planners will review your request and contact you within 24 hours at <span className="text-primary font-medium">{formData.phone}</span>.
+                      <h2 className="text-5xl font-heading font-black uppercase tracking-tighter text-white">Transmission SECURED.</h2>
+                      <p className="text-xl text-white/50 font-medium max-w-lg mx-auto leading-relaxed">
+                        A dossier has been created for <span className="text-white">"{formData.name}"</span>. Our elite gastronomy team is reviewing your requirements. Expect contact via <span className="text-primary italic font-serif">{formData.phone}</span>.
                       </p>
                     </div>
-                    <div className="pt-8 flex flex-col items-center gap-4">
-                      <div className="flex items-center gap-2 text-sm text-foreground/40 font-bold uppercase tracking-widest">
-                        <Clock size={16} /> Average response time: 4 hours
+                    <div className="pt-10 flex flex-col items-center gap-6">
+                      <div className="flex items-center gap-3 text-[10px] text-white/30 font-black uppercase tracking-[0.3em] bg-white/5 px-6 py-3 rounded-full border border-white/5">
+                        <Clock size={14} /> Expected SLA: 4 Hours
                       </div>
                       <button 
                         onClick={() => window.location.href = '/'}
-                        className="bg-foreground text-background px-6 py-2.5 sm:px-8 sm:py-3 rounded-xl font-bold text-sm sm:text-base hover:bg-foreground/90 transition-all"
+                        className="text-[10px] font-black uppercase tracking-[0.2em] text-white border-b border-white/20 pb-1 hover:border-primary hover:text-primary transition-all"
                       >
-                        Return Home
+                        Return to Origin
                       </button>
                     </div>
                   </div>
@@ -403,8 +391,6 @@ export default function BookEventPage() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

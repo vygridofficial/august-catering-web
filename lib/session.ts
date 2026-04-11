@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
-const secretKey = process.env.SESSION_SECRET || 'gateway-kitchen-super-secret-key-2026';
+const secretKey = process.env.SESSION_SECRET || 'august-catering-ultra-premium-key-2026';
 const key = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: any, expiresIn: string = '7d') {
@@ -22,7 +22,7 @@ export async function decrypt(input: string): Promise<any> {
 export async function verifyAdminSession() {
   try {
     const cookieStore = await cookies();
-    const sessionToken = cookieStore.get('gk_admin_session')?.value;
+    const sessionToken = cookieStore.get('august_catering_admin_session')?.value;
     if (!sessionToken) return false;
 
     const payload = await decrypt(sessionToken);

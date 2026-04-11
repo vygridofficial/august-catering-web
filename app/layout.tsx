@@ -4,6 +4,7 @@ import "./globals.css";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { Toaster } from 'sonner';
 import { SocialSidebar } from '@/components/SocialSidebar';
+import { ScrollSafety } from '@/components/providers/ScrollSafety';
 
 const inter = Inter({
   variable: "--font-inter",
@@ -71,6 +72,10 @@ export const metadata: Metadata = {
   },
 };
 
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { BoutiqueAmbience } from "@/components/providers/BoutiqueAmbience";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -79,17 +84,18 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${outfit.variable} ${playfairDisplay.variable} h-full antialiased`}
+      className={`${inter.variable} ${outfit.variable} ${playfairDisplay.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="relative min-h-full flex flex-col font-sans bg-background text-foreground overflow-x-clip selection:bg-amber-500 selection:text-black">
+      <body className="relative flex flex-col font-sans bg-background text-foreground overflow-x-clip selection:bg-amber-500 selection:text-black">
+        <ScrollSafety />
         <SmoothScroll>
-          {/* Header will go here */}
+          <Header />
           <main className="flex-grow">{children}</main>
-          {/* Footer will go here */}
+          <Footer />
         </SmoothScroll>
+        <BoutiqueAmbience />
         <Toaster richColors position="bottom-right" theme="dark" />
-        <SocialSidebar />
       </body>
     </html>
   );

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getMenuItems, addMenuItem, deleteMenuItem, uploadImage } from '@/lib/actions/database';
-import { Plus, Trash, Edit2, Loader2, Image as ImageIcon } from 'lucide-react';
+import { Plus, Trash, Edit2, Loader2, Image as ImageIcon, ArrowUpRight, ChefHat, GlassWater } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface MenuItem {
@@ -19,6 +19,7 @@ export default function AdminMenu() {
   const [items, setItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   
   const [newItem, setNewItem] = useState({ name: '', subtitle: '', category: 'Starters', price: '', image: '' });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -48,13 +49,12 @@ export default function AdminMenu() {
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreviewUrl(objectUrl);
 
-    // Free memory when component is unmounted or file changes
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile, newItem.image]);
 
   const handleAdd = async () => {
     if (!newItem.name || !newItem.price) {
-      toast.error("Please fill in the item name and price.");
+      toast.error("Manifest requires a designation and valuation.");
       return;
     }
     
@@ -68,7 +68,7 @@ export default function AdminMenu() {
       if (uploadRes.success && uploadRes.url) {
         finalImageUrl = uploadRes.url;
       } else {
-        toast.error('Failed to upload menu image.');
+        toast.error('Failed to upload menu asset.');
         setIsUploading(false);
         return;
       }
@@ -76,7 +76,7 @@ export default function AdminMenu() {
 
     const payload = {
       ...newItem,
-      image: finalImageUrl || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800', // fallback
+      image: finalImageUrl || 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800',
     };
     
     const res = await addMenuItem(payload);
@@ -84,170 +84,205 @@ export default function AdminMenu() {
       fetchItems();
       setNewItem({ name: '', subtitle: '', category: 'Starters', price: '', image: '' });
       setSelectedFile(null);
-      toast.success("Menu item added successfully.");
+      setIsAdding(false);
+      toast.success("Culinary entry synchronized.");
     } else {
-      toast.error("Error adding item.");
+      toast.error("Error committing manifest entry.");
     }
     setIsUploading(false);
   };
 
   const handleDelete = async (id: string) => {
+    if (!confirm("Permanently erase this culinary record?")) return;
     const res = await deleteMenuItem(id);
     if (res.success) {
       fetchItems();
-      toast.success("Menu item deleted.");
+      toast.success("Record purged.");
     } else {
-      toast.error("Failed to delete menu item.");
+      toast.error("Failed to erase record.");
     }
   };
 
   return (
-    <div className="w-full max-w-5xl">
-      <h1 className="text-5xl font-heading font-bold tracking-tight mb-2">Menu Setup</h1>
-      <p className="text-foreground/60 mb-12">Manage the services and catering items displayed on the public site.</p>
-
-      {/* Add Item Panel */}
-      <div className="bg-background/80 backdrop-blur-xl border border-border p-6 md:p-8 rounded-[2.5rem] shadow-sm mb-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-end">
-        <div className="w-full">
-          <label className="text-xs font-semibold uppercase tracking-widest text-foreground/50 mb-2 block">Item Name</label>
-          <input 
-            type="text" 
-            value={newItem.name}
-            onChange={(e) => setNewItem({...newItem, name: e.target.value})}
-            className="w-full bg-border/20 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-primary outline-none transition-all"
-            placeholder="e.g. Signature Prawns"
-          />
-        </div>
-        <div className="w-full">
-          <label className="text-xs font-semibold uppercase tracking-widest text-foreground/50 mb-2 block">Subtitle (e.g. Chef Special)</label>
-          <input 
-            type="text" 
-            value={newItem.subtitle}
-            onChange={(e) => setNewItem({...newItem, subtitle: e.target.value})}
-            className="w-full bg-border/20 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-primary outline-none transition-all"
-            placeholder="Chef Special"
-          />
-        </div>
-        <div className="w-full">
-          <label className="text-xs font-semibold uppercase tracking-widest text-foreground/50 mb-2 block">Category</label>
-          <select 
-            value={newItem.category}
-            onChange={(e) => setNewItem({...newItem, category: e.target.value})}
-            className="w-full bg-border/20 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-primary outline-none transition-all"
-          >
-            <option>Starters</option>
-            <option>Mains</option>
-            <option>Desserts</option>
-            <option>Beverages</option>
-          </select>
-        </div>
-        <div className="w-full">
-          <label className="text-xs font-semibold uppercase tracking-widest text-foreground/50 mb-2 block">Price Tag</label>
-          <input 
-            type="text" 
-            value={newItem.price}
-            onChange={(e) => setNewItem({...newItem, price: e.target.value})}
-            className="w-full bg-border/20 border-none rounded-2xl px-5 py-4 text-sm focus:ring-2 focus:ring-primary outline-none transition-all"
-            placeholder="₹1200 / portion"
-          />
-        </div>
-        
-        <div className="w-full">
-          <label className="text-xs font-semibold uppercase tracking-widest text-foreground/50 mb-2 block">Item Preview</label>
-          <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-border bg-border/10 flex items-center justify-center mb-4">
-            {previewUrl ? (
-              <img 
-                src={previewUrl} 
-                alt="Menu Item Preview" 
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="flex flex-col items-center gap-2 text-foreground/20">
-                <ImageIcon size={32} />
-                <span className="text-[10px] font-bold uppercase tracking-widest">No Image</span>
-              </div>
-            )}
-            {isUploading && (
-              <div className="absolute inset-0 bg-background/60 backdrop-blur-sm flex items-center justify-center">
-                <Loader2 size={24} className="text-primary animate-spin" />
-              </div>
-            )}
+    <div className="w-full max-w-6xl mx-auto space-y-16 animate-in fade-in slide-in-from-bottom-8 duration-1000 font-outfit">
+      
+      {/* Header Engine */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div>
+          <div className="flex items-center gap-3 mb-4">
+             <div className="w-2 h-2 rounded-full bg-primary" />
+             <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/30">Archives & Catalogues</span>
           </div>
-          
-          <div className="flex flex-col gap-3">
-            <input 
-              type="file" 
-              accept="image/*"
-              onChange={(e) => {
-                if(e.target.files?.[0]) {
-                  setSelectedFile(e.target.files[0]);
-                  setNewItem({...newItem, image: ''});
-                }
-              }}
-              className="w-full file:mr-2 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-primary-foreground text-xs text-foreground/70"
-            />
-            <div className="flex items-center gap-2 w-full">
-              <input 
-                type="url" 
-                value={newItem.image}
-                disabled={!!selectedFile}
-                onChange={(e) => setNewItem({...newItem, image: e.target.value})}
-                className="w-full bg-border/20 border-none rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary outline-none transition-all disabled:opacity-50"
-                placeholder="Or paste URL..."
-              />
-            </div>
-          </div>
+          <h1 className="text-6xl font-heading font-black text-white tracking-tighter uppercase leading-none">THE <span className="text-primary italic font-serif">MANIFEST.</span></h1>
+          <p className="text-white/40 mt-4 text-lg font-medium max-w-xl">Curating the definitive culinary sequence for the August Catering signature experiences.</p>
         </div>
-
         <button 
-          onClick={handleAdd}
-          disabled={isUploading}
-          className="bg-primary h-14 text-primary-foreground rounded-2xl hover:scale-105 transition-all flex items-center justify-center font-bold text-sm tracking-widest uppercase disabled:opacity-70 shadow-lg"
+          onClick={() => setIsAdding(!isAdding)}
+          className="group relative px-10 py-5 bg-white text-black rounded-2xl text-xs font-black uppercase tracking-[0.3em] overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-2xl"
         >
-          {isUploading ? <Loader2 className="animate-spin mr-2" size={20} /> : <Plus size={20} className="mr-2" />}
-          {isUploading ? 'Saving...' : 'Add Item'}
+          <span className="relative z-10 flex items-center gap-2">
+            {isAdding ? <X size={16} className="text-black"/> : <Plus size={16} className="text-black"/>}
+            {isAdding ? 'Deactivate' : 'Append Entry'}
+          </span>
+          <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]" />
         </button>
       </div>
 
-      {/* Items List */}
-      <div className="space-y-4">
+      {isAdding && (
+        <div className="bg-white/[0.01] backdrop-blur-3xl border border-white/5 p-12 rounded-[4rem] shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[100px] rounded-full" />
+          
+          <div className="grid gap-12 lg:grid-cols-12 relative z-10">
+            {/* Control Panel */}
+            <div className="lg:col-span-8 space-y-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Designation (Name)</label>
+                        <input 
+                            type="text" 
+                            value={newItem.name}
+                            onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+                            className="w-full p-5 bg-white/[0.01] border border-white/5 rounded-2xl text-white/60 focus:ring-1 focus:ring-primary focus:border-primary/50 outline-none transition-all text-xs font-bold tracking-widest"
+                            placeholder="CUISINE IDENTITY..."
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Annotation (Subtitle)</label>
+                        <input 
+                            type="text" 
+                            value={newItem.subtitle}
+                            onChange={(e) => setNewItem({...newItem, subtitle: e.target.value})}
+                            className="w-full p-5 bg-white/[0.01] border border-white/5 rounded-2xl text-white/60 focus:ring-1 focus:ring-primary focus:border-primary/50 outline-none transition-all text-xs font-bold tracking-widest"
+                            placeholder="CHEF SPECIAL..."
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Classification (Category)</label>
+                        <select 
+                            value={newItem.category}
+                            onChange={(e) => setNewItem({...newItem, category: e.target.value})}
+                            className="w-full p-5 bg-[#050505] border border-white/5 rounded-2xl text-white/60 focus:ring-1 focus:ring-primary focus:border-primary/50 outline-none transition-all text-xs font-black uppercase tracking-widest appearance-none"
+                        >
+                            <option>Starters</option>
+                            <option>Mains</option>
+                            <option>Desserts</option>
+                            <option>Beverages</option>
+                        </select>
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Valuation (Price Tag)</label>
+                        <input 
+                            type="text" 
+                            value={newItem.price}
+                            onChange={(e) => setNewItem({...newItem, price: e.target.value})}
+                            className="w-full p-5 bg-white/[0.01] border border-white/5 rounded-2xl text-white/60 focus:ring-1 focus:ring-primary focus:border-primary/50 outline-none transition-all text-xs font-bold tracking-widest"
+                            placeholder="₹0,000 /..."
+                        />
+                    </div>
+                </div>
+
+                <div className="pt-6">
+                    <button 
+                    onClick={handleAdd}
+                    disabled={isUploading}
+                    className="w-full flex items-center justify-center gap-4 bg-primary text-black px-10 py-6 rounded-2xl font-black uppercase tracking-[0.3em] text-[10px] hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-40 shadow-2xl shadow-primary/20"
+                    >
+                    {isUploading ? <Loader2 size={16} className="animate-spin" /> : <ArrowUpRight size={16} />}
+                    {isUploading ? 'SYNCHRONIZING...' : 'COMMIT TO MANIFEST'}
+                    </button>
+                </div>
+            </div>
+
+            {/* Ingestion Engine */}
+            <div className="lg:col-span-4 flex flex-col gap-6">
+                <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Visual Archetype</label>
+                <div className="relative aspect-square rounded-[2.5rem] overflow-hidden border-2 border-dashed border-white/5 bg-white/[0.01] flex items-center justify-center group hover:border-primary/20 transition-all duration-700">
+                    {previewUrl ? (
+                    <img src={previewUrl} alt="Preview" className="w-full h-full object-cover saturate-[0.8]" />
+                    ) : (
+                    <div className="flex flex-col items-center gap-4 text-white/10 group-hover:text-primary transition-colors duration-700">
+                        <ImageIcon size={48} strokeWidth={1} />
+                        <span className="text-[8px] font-black uppercase tracking-[0.3em]">No Media Stream</span>
+                    </div>
+                    )}
+                    {isUploading && (
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-md flex flex-col items-center justify-center gap-4">
+                        <Loader2 size={32} className="text-primary animate-spin" />
+                    </div>
+                    )}
+                    <input 
+                        type="file" 
+                        accept="image/*"
+                        onChange={(e) => {
+                            if(e.target.files?.[0]) {
+                                setSelectedFile(e.target.files[0]);
+                                setNewItem({...newItem, image: ''});
+                            }
+                        }}
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                    />
+                </div>
+                <div className="space-y-2">
+                    <input 
+                        type="url" 
+                        value={newItem.image}
+                        disabled={!!selectedFile}
+                        onChange={(e) => setNewItem({...newItem, image: e.target.value})}
+                        className="w-full p-4 bg-white/[0.01] border border-white/5 rounded-xl text-white/40 focus:ring-1 focus:ring-primary outline-none transition-all disabled:opacity-20 text-[10px] font-bold tracking-widest"
+                        placeholder="OR SOURCE URL EXTERNALLY..."
+                    />
+                </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Manifest Grid */}
+      <div className="space-y-6">
         {loading ? (
-          <div className="flex items-center justify-center p-12 text-foreground/40 gap-3">
-            <Loader2 className="animate-spin" /> Loading Menu...
+          <div className="flex items-center justify-center py-48 text-white/20 gap-4">
+            <Loader2 className="animate-spin" size={32} />
+            <span className="text-[10px] font-black uppercase tracking-[0.5em]">Loading Archives...</span>
           </div>
         ) : items.length === 0 ? (
-          <div className="p-12 text-center text-foreground/40 border border-dashed rounded-3xl">
-            No items found. Add your first catering package above.
+          <div className="p-32 text-center text-white/10 border-2 border-dashed border-white/5 rounded-[4rem]">
+              <ChefHat size={64} strokeWidth={1} className="mx-auto mb-8 opacity-20" />
+              <p className="text-[10px] font-black uppercase tracking-[0.5em]">The Manifest is currently hollow.</p>
           </div>
         ) : (
-          items.map(item => (
-            <div key={item.id} className="bg-background/40 backdrop-blur-md border border-border p-4 pr-6 rounded-[2rem] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6 group">
-              <div className="flex items-center gap-6">
-                <div className="w-20 h-20 rounded-2xl overflow-hidden bg-secondary border border-border/50 shrink-0">
-                  {item.image ? (
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-foreground/20">
-                      <ImageIcon size={24} />
+          <div className="grid gap-6">
+            {items.map(item => (
+                <div key={item.id} className="bg-white/[0.01] backdrop-blur-3xl border border-white/5 p-6 pr-10 rounded-[2.5rem] shadow-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-8 group hover:border-primary/20 hover:bg-white/[0.03] transition-all duration-700">
+                <div className="flex items-center gap-8">
+                    <div className="w-24 h-24 rounded-2xl overflow-hidden bg-white/5 border border-white/10 shrink-0 relative">
+                    {item.image ? (
+                        <img src={item.image} alt={item.name} className="w-full h-full object-cover saturate-[0.6] group-hover:saturate-100 group-hover:scale-110 transition-all duration-1000" />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-white/10">
+                            <ChefHat size={24} />
+                        </div>
+                    )}
                     </div>
-                  )}
+                    <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2">
+                             <span className="text-[8px] font-black px-3 py-1 bg-primary/10 text-primary uppercase tracking-[0.3em] rounded-full border border-primary/20">{item.category}</span>
+                             {item.subtitle && <span className="text-[9px] text-white/20 font-black uppercase tracking-[0.2em]">{item.subtitle}</span>}
+                        </div>
+                        <h3 className="font-heading font-black text-3xl text-white group-hover:text-primary transition-all duration-500 uppercase tracking-tighter leading-none">{item.name}</h3>
+                    </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-xl truncate">{item.name}</h3>
-                  <div className="flex flex-wrap items-center gap-2 mt-1">
-                    <span className="text-xs font-bold px-3 py-1 bg-primary/10 text-primary uppercase tracking-widest rounded-full">{item.category}</span>
-                    {item.subtitle && <span className="text-sm text-foreground/50 italic">{item.subtitle}</span>}
-                  </div>
+                <div className="flex items-center justify-between sm:justify-end gap-12 pl-4 sm:pl-0">
+                    <span className="font-heading font-black text-3xl text-white/60 tracking-tighter">{item.price || "QUOTATION REQUIRED"}</span>
+                    <button 
+                        onClick={() => handleDelete(item.id)} 
+                        className="w-14 h-14 rounded-2xl bg-white/5 border border-white/5 flex items-center justify-center text-white/20 hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/20 transition-all duration-500 shadow-xl"
+                    >
+                        <Trash size={20} />
+                    </button>
                 </div>
-              </div>
-              <div className="flex items-center justify-between sm:justify-end gap-6 sm:gap-12 pl-2 sm:pl-0">
-                <span className="font-heading font-bold text-xl whitespace-nowrap">{item.price || "Contact for pricing"}</span>
-                <button onClick={() => handleDelete(item.id)} className="text-destructive/50 hover:text-destructive transition-colors p-3 hover:bg-destructive/10 bg-background/50 backdrop-blur-xl shrink-0 rounded-2xl shadow-sm">
-                  <Trash size={20} />
-                </button>
-              </div>
-            </div>
-          ))
+                </div>
+            ))}
+          </div>
         )}
       </div>
     </div>

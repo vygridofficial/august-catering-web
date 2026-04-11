@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getHeroImages } from '@/lib/actions/database';
+import { getHeroImages } from '@/lib/actions/hero';
 
 import Image from 'next/image';
 
-const FALLBACK_IMAGE = '/images/bg1.jpg';
+const FALLBACK_IMAGE = '/bg1.jpg';
 
 import { Skeleton } from './ui/Skeleton';
 
@@ -17,15 +17,21 @@ export function HeroImageSlider() {
 
   useEffect(() => {
     const fetchImages = async () => {
-      setLoading(true);
-      const data = await getHeroImages();
-      if (data && data.length > 0) {
-        const active = data.filter((img: any) => img.isActive).map((img: any) => img.url);
-        setImages(active.length > 0 ? active : [FALLBACK_IMAGE]);
-      } else {
+      try {
+        setLoading(true);
+        const data = await getHeroImages();
+        if (data && data.length > 0) {
+          const active = data.filter((img: any) => img.isActive).map((img: any) => img.url);
+          setImages(active.length > 0 ? active : [FALLBACK_IMAGE]);
+        } else {
+          setImages([FALLBACK_IMAGE]);
+        }
+      } catch (err) {
+        console.error("Hero image fetch fail:", err);
         setImages([FALLBACK_IMAGE]);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
     fetchImages();
   }, []);
@@ -62,7 +68,8 @@ export function HeroImageSlider() {
               fill
               priority={currentIndex === 0}
               className="object-cover object-top md:object-center"
-              quality={100}
+              sizes="100vw"
+              quality={90}
             />
           )}
         </motion.div>

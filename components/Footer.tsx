@@ -5,6 +5,44 @@ import Link from "next/link";
 import { getSocialSettings } from "@/lib/actions/database";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { MessageCircle, MapPin, Mail, Phone, ArrowUpRight } from "lucide-react";
+
+const Instagram = (props: any) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
+
+const Facebook = (props: any) => (
+  <svg
+    {...props}
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+  </svg>
+);
+
 
 export function Footer() {
   const [settings, setSettings] = useState<any>(null);
@@ -18,100 +56,134 @@ export function Footer() {
   }, []);
 
   const phone = settings?.phone || "+91 94951 84661";
-  const email = settings?.email || "info@augustcatering.com";
+  const email = settings?.email || "info@augustcatering.in";
   const phoneHref = `tel:${String(phone).replace(/[^+\d]/g, "")}`;
   const emailHref = `mailto:${email}`;
 
-  return (
-    <footer className="bg-[#080808] text-foreground py-24 relative overflow-hidden border-t border-white/5">
-      {/* Cinematic Grain Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay">
-        <svg className="w-full h-full">
-          <filter id="noiseFooter"><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch"/></filter>
-          <rect width="100%" height="100%" filter="url(#noiseFooter)"/>
-        </svg>
-      </div>
+  const navLinks = [
+    { name: 'About', href: '/about' },
+    { name: 'Services', href: '/services' },
+    { name: 'Menu', href: '/menu' },
+    { name: 'Gallery', href: '/gallery' },
+    { name: 'Contact', href: '/contact' },
+  ];
 
+  return (
+    <footer className="bg-[#050505] text-white py-32 relative overflow-hidden border-t border-white/5 font-outfit">
+      {/* Cinematic Grain & Ambience */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-150 contrast-150" />
+      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/5 blur-[140px] rounded-full" />
+      
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-24">
-          <div className="col-span-1 lg:col-span-2 space-y-8">
-            <Link href="/" className="inline-block">
-              <div className="relative w-20 h-20 rounded-full overflow-hidden border border-white/10 group">
-                <Image
-                  src="/logo.jpeg"
-                  alt="August Catering Logo"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  priority
-                />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+          
+          {/* Brand */}
+          <div className="lg:col-span-5 space-y-12">
+            <Link href="/" className="inline-block group">
+              <div className="flex items-center gap-4">
+                <div className="relative w-16 h-16 rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-700">
+                  <Image
+                    src="/logo.jpeg"
+                    alt="August Catering Logo"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110 saturate-[0.8] group-hover:saturate-100"
+                    priority
+                  />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-heading font-black tracking-tighter text-white leading-none">AUGUST</h3>
+                  <p className="text-[10px] font-bold tracking-widest text-primary uppercase mt-1">CATERING</p>
+                </div>
               </div>
             </Link>
-            <div className="space-y-4">
-               <h3 className="text-3xl font-heading font-black tracking-tighter text-white">AUGUST <span className="text-primary italic">CATERING</span></h3>
-               <p className="text-foreground/40 max-w-sm text-lg font-light leading-relaxed font-outfit">
-                 Crafting unforgettable culinary memories since 2003. We engineer premium gastronomy experiences for the most discerning palates.
-               </p>
+            
+            <p className="text-white/40 max-w-md text-xl font-medium leading-[1.6]">
+              Delivering exceptional culinary experiences and meticulously choreographed events since 2003. Kerala's premier catering service.
+            </p>
+            
+            <div className="flex gap-4">
+              {[
+                { icon: Instagram, href: settings?.instagram || "https://instagram.com/augustcatering" },
+                { icon: Facebook, href: settings?.facebook || "https://facebook.com/augustcatering" },
+                { icon: MessageCircle, href: `https://wa.me/${settings?.whatsapp || '919495184661'}` }
+              ].map((social, i) => (
+                <a 
+                  key={i}
+                  href={social.href} 
+                  target="_blank" 
+                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-500"
+                >
+                  <social.icon size={20} />
+                </a>
+              ))}
             </div>
           </div>
 
-          <div className="space-y-8">
-            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-primary/60">
-              Quick Links
-            </h4>
-            <ul className="space-y-3 text-lg font-light font-outfit">
-              {['Home', 'About', 'Services', 'Menu', 'Gallery', 'Contact'].map((label) => (
-                <li key={label}>
+          {/* Quick Links */}
+          <div className="lg:col-span-3 space-y-10">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">Our Links</h4>
+            <ul className="space-y-4">
+              {navLinks.map((link) => (
+                <li key={link.name}>
                   <Link
-                    href={label === 'Home' ? '/' : `/${label.toLowerCase()}`}
-                    className="text-foreground/40 hover:text-primary transition-all duration-300 hover:pl-2"
+                    href={link.href}
+                    className="group flex items-center gap-2 text-white/40 hover:text-white transition-all duration-500 text-lg font-bold"
                   >
-                    {label}
+                    <span className="w-0 group-hover:w-4 h-px bg-primary transition-all duration-500" />
+                    {link.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="space-y-8">
-            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-primary/60">Contact</h4>
-            <ul className="space-y-4 text-lg font-light font-outfit">
-              <li className="text-foreground/60 leading-tight">Thiruvaniyoor,<br/> Ernakulam, Kerala</li>
-              <li>
-                <a
-                  href={phoneHref}
-                  className="text-foreground/40 hover:text-primary transition-all duration-300"
-                >
-                  {phone}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={emailHref}
-                  className="text-foreground/40 hover:text-primary transition-all duration-300"
-                >
-                  {email}
-                </a>
-              </li>
-            </ul>
+          {/* Contact Information */}
+          <div className="lg:col-span-4 space-y-10">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">Contact Us</h4>
+            <div className="space-y-8">
+              <a href={emailHref} className="group block">
+                <p className="text-[9px] font-bold uppercase tracking-wider text-white/20 mb-2">Email Us</p>
+                <div className="flex items-center justify-between border-b border-white/5 pb-4 group-hover:border-primary/50 transition-colors">
+                  <span className="text-xl font-bold text-white/60 group-hover:text-white transition-colors truncate">{email}</span>
+                  <ArrowUpRight size={18} className="text-white/20 group-hover:text-primary transition-all" />
+                </div>
+              </a>
+              <a href={phoneHref} className="group block">
+                <p className="text-[9px] font-bold uppercase tracking-wider text-white/20 mb-2">Call Us</p>
+                <div className="flex items-center justify-between border-b border-white/5 pb-4 group-hover:border-primary/50 transition-colors">
+                  <span className="text-xl font-bold text-white/60 group-hover:text-white transition-colors">{phone}</span>
+                  <ArrowUpRight size={18} className="text-white/20 group-hover:text-primary transition-all" />
+                </div>
+              </a>
+              <div className="group block cursor-default">
+                <p className="text-[9px] font-bold uppercase tracking-wider text-white/20 mb-2">Visit Us</p>
+                <div className="text-lg font-bold text-white/40 leading-tight">
+                  Thiruvaniyoor, Kochi <br />
+                  Kerala, India
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Footer Meta */}
+        <div className="mt-40 pt-12 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="flex flex-col gap-2">
-             <p className="text-foreground/20 font-bold text-[10px] uppercase tracking-widest">
-               © {new Date().getFullYear()} AUGUST CATERING SERVICES.
+             <p className="text-white/20 font-bold text-[9px] uppercase tracking-wider">
+               © {new Date().getFullYear()} August Catering. All Rights Reserved.
              </p>
-             <p className="text-foreground/10 text-[9px] uppercase tracking-widest">
-               SCULPTED BY VYGRID
+             <p className="text-white/10 text-[8px] font-bold uppercase tracking-widest mt-1">
+               Designed by <span className="text-primary/40 hover:text-primary transition-colors cursor-pointer">Vygrid</span>
              </p>
           </div>
           
-          <div className="flex gap-8 text-[11px] font-black uppercase tracking-widest text-foreground/20">
-            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
-            <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
+          <div className="flex gap-12 text-[10px] font-bold uppercase tracking-widest text-white/20">
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
     </footer>
   );
 }
+

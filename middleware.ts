@@ -4,7 +4,7 @@ import { decrypt } from '@/lib/session';
 
 export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
-  const token = request.cookies.get('gk_admin_session')?.value;
+  const token = request.cookies.get('august_catering_admin_session')?.value;
   let isAuthenticated = false;
 
   if (token) {

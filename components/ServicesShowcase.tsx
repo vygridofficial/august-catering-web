@@ -2,18 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { getServices } from '@/lib/actions/database';
+import { getServices } from '@/lib/actions/services';
 import { Skeleton } from './ui/Skeleton';
-
-gsap.registerPlugin(ScrollTrigger);
+import { Sparkles, ArrowUpRight, ChefHat } from 'lucide-react';
+import { StackedSlider } from './ui/StackedSlider';
 
 export function ServicesShowcase() {
   const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -26,120 +23,112 @@ export function ServicesShowcase() {
     fetchServices();
   }, []);
 
-  useEffect(() => {
-    if (services.length === 0) return;
-
-    const ctx = gsap.context(() => {
-      cardsRef.current.forEach((card, i) => {
-        if (card) {
-          gsap.fromTo(card, 
-            { y: 100, opacity: 0, scale: 0.95 },
-            {
-              y: 0,
-              opacity: 1,
-              scale: 1,
-              duration: 1.5,
-              ease: "expo.out",
-              scrollTrigger: {
-                trigger: card,
-                start: "top 90%",
-                end: "center 50%",
-                scrub: 1,
-              }
-            }
-          );
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [services]);
-
   return (
-    <section ref={sectionRef} id="services" className="relative py-32 bg-[#050505] overflow-hidden border-t border-white/5">
-      {/* Cinematic Edge Lighting */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
+    <section ref={sectionRef} id="services" className="relative py-64 bg-[#050505] overflow-hidden border-t border-white/5 font-outfit">
+      
+      {/* Cinematic Pulse Ambience */}
+      <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-primary/5 rounded-full blur-[180px] pointer-events-none opacity-50" />
+      <div className="absolute bottom-0 left-[-10%] w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[150px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-4xl mb-24">
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
+        <div className="max-w-4xl mb-32 text-center md:text-left">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-primary text-xs font-black uppercase tracking-[0.3em] mb-4"
+            className="flex items-center justify-center md:justify-start gap-3 mb-8"
           >
-            Capabilities
-          </motion.p>
+            <ChefHat size={14} className="text-primary" />
+            <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Signature Collections</span>
+          </motion.div>
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl font-heading font-black text-white tracking-tight"
+            className="text-[clamp(3.5rem,8vw,6rem)] font-heading font-black text-white tracking-tighter leading-[0.8] uppercase"
           >
-            Curated <span className="text-primary italic font-serif">Experiences.</span>
+            Gastronomic <br /><span className="text-primary italic font-serif">IDENTITY.</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-8 text-xl text-white/50 font-outfit font-light max-w-2xl leading-relaxed"
+            transition={{ delay: 0.4, duration: 1 }}
+            className="mt-10 text-xl md:text-2xl text-white/40 font-medium max-w-2xl leading-relaxed mx-auto md:mx-0"
           >
-            Every occasion demands a specific atmosphere. We provide precisely curated menus that match the scale, theme, and elegance of your signature event.
+            A curated spectrum of service modules, engineered for elite hospitality and uncompromising quality.
           </motion.p>
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-96 rounded-[2rem] bg-white/5" />
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+               <Skeleton className="w-full h-[600px] rounded-[3.5rem] bg-white/[0.02] border border-white/5" />
+               <Skeleton className="w-full h-[600px] rounded-[3.5rem] bg-white/[0.02] border border-white/5 hidden md:block" />
+               <Skeleton className="w-full h-[600px] rounded-[3.5rem] bg-white/[0.02] border border-white/5 hidden md:block" />
           </div>
         ) : services.length === 0 ? (
-          <div className="py-20 text-center text-white/20 font-outfit border border-white/5 rounded-[2rem]">
-            Awaiting curation...
+          <div className="py-32 text-center text-white/10 font-bold uppercase tracking-widest border border-dashed border-white/5 rounded-[4rem]">
+            Awaiting service modules...
           </div>
         ) : (
           <div className="flex flex-col items-center">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-              {services.map((svc, idx) => (
-                <motion.div
+              {services.slice(0, 3).map((svc, i) => (
+                <motion.div 
                   key={svc.id}
-                  ref={el => { if (el) cardsRef.current[idx] = el; }}
-                  whileHover={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className="p-10 rounded-[2.5rem] bg-background/40 border border-white/5 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-primary/30 hover:bg-background/60 transition-colors duration-500"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 1, delay: i * 0.2, ease: [0.19, 1, 0.22, 1] }}
+                  className="relative h-[650px] w-full p-10 md:p-14 rounded-[3.5rem] bg-[#0A0A0A] border border-white/10 shadow-2xl overflow-hidden flex flex-col justify-between group hover:border-primary/50 transition-all duration-700"
                 >
-                  <div className="relative z-10 h-full flex flex-col justify-between">
+                  {/* Atmospheric Glow */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-primary/10 to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-1000" />
+                  
+                  <div className="relative z-10 flex flex-col justify-between h-full">
                     <div>
-                      <h3 className="text-3xl font-heading font-bold text-white mb-4 group-hover:text-primary transition-colors duration-300">{svc.title}</h3>
-                      <p className="text-white/50 font-outfit leading-relaxed font-light mb-8 line-clamp-3">{svc.description}</p>
+                      <div className="flex items-center justify-between mb-12">
+                         <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
+                            <Sparkles size={24} className="text-white/40 group-hover:text-primary transition-colors" />
+                         </div>
+                         <span className="text-[11px] font-black tracking-widest text-white/20 uppercase">Module // 0{i+1}</span>
+                      </div>
+                      
+                      <h3 className="text-4xl md:text-5xl font-heading font-black text-white mb-8 uppercase tracking-tighter leading-[0.85] group-hover:text-primary transition-colors duration-500">{svc.title}</h3>
+                      <p className="text-white/40 text-lg font-medium leading-relaxed mb-8 line-clamp-4 group-hover:text-white/60 transition-colors duration-500">{svc.description}</p>
                     </div>
-                    <div className="inline-flex items-center self-start px-4 py-2 rounded-full bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-white/70 border border-white/10 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                      {svc.style}
+                    
+                    <div className="mt-auto">
+                        <div className="w-full p-8 rounded-3xl bg-white/[0.02] border border-white/5 flex items-center justify-between backdrop-blur-3xl group-hover:bg-white/5 transition-all duration-500">
+                            <div className="space-y-1">
+                                <p className="text-[9px] font-black uppercase tracking-widest text-primary">Service Class</p>
+                                <p className="text-white font-bold">{svc.style || 'Signature'}</p>
+                            </div>
+                            <div className="w-14 h-14 rounded-full bg-white/5 group-hover:bg-primary flex items-center justify-center text-white/40 group-hover:text-black shadow-lg transition-all duration-500">
+                                <ArrowUpRight size={24} />
+                            </div>
+                        </div>
                     </div>
                   </div>
-                  
-                  {/* Subtle Amber Glow on Hover */}
-                  <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-primary/10 blur-[60px] rounded-full group-hover:scale-150 group-hover:bg-primary/20 transition-transform duration-700 ease-in-out"></div>
                 </motion.div>
               ))}
             </div>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mt-20"
+              className="mt-48"
             >
               <a 
                 href="/services" 
-                className="inline-flex items-center gap-4 px-10 py-5 bg-white text-black rounded-full font-bold uppercase tracking-[0.15em] text-sm hover:scale-[1.02] hover:bg-primary hover:text-white hover:shadow-[0_0_40px_rgba(255,204,0,0.3)] transition-all duration-300"
+                className="group relative inline-flex items-center gap-6 px-14 py-6 bg-white text-black rounded-2xl font-bold uppercase tracking-widest text-xs transition-all duration-700 hover:scale-105 active:scale-95 shadow-2xl hover:shadow-primary/20"
               >
-                Explore Full Services 
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <span className="relative z-10">Access Full Registry</span>
+                <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all">
+                  <ArrowUpRight size={16} />
+                </div>
               </a>
             </motion.div>
           </div>

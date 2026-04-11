@@ -1,116 +1,114 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
-
-gsap.registerPlugin(ScrollTrigger);
+import { ArrowUpRight } from 'lucide-react';
 
 export function LiquidAbout() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
-  useEffect(() => {
-    if (!containerRef.current || !imageRef.current || !textRef.current) return;
+  // Transform values for the cinematic image sequence
+  // 0% - 15%: Image expands to fullscreen very aggressively on first scroll
+  const widthStr = useTransform(scrollYProgress, [0, 0.15], ["35vw", "100vw"]);
+  const heightStr = useTransform(scrollYProgress, [0, 0.15], ["60vh", "100vh"]);
+  const borderRadius = useTransform(scrollYProgress, [0, 0.15], ["3rem", "0rem"]);
+  const brightness = useTransform(scrollYProgress, [0.15, 0.35], [1, 0.7]);
+  const overlayOpacity = useTransform(brightness, [1, 0.7], [0, 0.3]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
 
-    // Liquid Image Parallax & Scale
-    gsap.fromTo(imageRef.current,
-      { scale: 1.2, y: -50, filter: 'blur(10px) brightness(0.5)' },
-      {
-        scale: 1,
-        y: 50,
-        filter: 'blur(0px) brightness(1)',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        }
-      }
-    );
-
-    // Text Stagger Reveal
-    const words = textRef.current.querySelectorAll('.word');
-    gsap.fromTo(words, 
-      { y: 100, opacity: 0, rotateX: -90 },
-      { 
-        y: 0, 
-        opacity: 1, 
-        rotateX: 0,
-        stagger: 0.05,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: textRef.current,
-          start: 'top 80%',
-          end: 'bottom 50%',
-          scrub: 1,
-        }
-      }
-    );
-    
-    // Background Liquid Blur effect
-    gsap.to(containerRef.current, {
-      backgroundColor: 'rgba(255, 204, 0, 0.05)',
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: 'center center',
-        end: 'bottom top',
-        scrub: true,
-      }
-    });
-  }, []);
-
-  const wrapWords = (text: string) => {
-    return text.split(' ').map((word, i) => (
-      <span key={i} className="inline-block overflow-hidden pb-2 mr-[0.25em]">
-        <span className="word inline-block origin-bottom">{word}</span>
-      </span>
-    ));
-  };
+  // Typography reveal follows right after expansion
+  const textY = useTransform(scrollYProgress, [0.15, 0.35], [100, 0]);
+  const textOpacity = useTransform(scrollYProgress, [0.15, 0.3], [0, 1]);
+  const pY = useTransform(scrollYProgress, [0.22, 0.42], [50, 0]);
+  const pOpacity = useTransform(scrollYProgress, [0.22, 0.38], [0, 1]);
+  
+  // Floating elements
+  const floatY = useTransform(scrollYProgress, [0, 1], [0, -200]);
 
   return (
-    <section ref={containerRef} className="relative w-full min-h-screen bg-background py-32 overflow-hidden flex items-center">
+    // The container dictates the scroll distance (300vh means heavy scrolling needed to pass)
+    <section ref={containerRef} className="relative w-full h-[300vh] bg-[#050505]">
       
-      {/* Liquid Glass Distorted Background Element */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px] pointer-events-none mix-blend-screen" />
-
-      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+      {/* Sticky wrapper stays pinned to the viewport while the parent scrolls */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden flex flex-col items-center justify-center">
         
-        {/* Parallax Image Container */}
-        <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden border border-white/5 shadow-2xl">
-          <div ref={imageRef} className="absolute inset-[-10%] w-[120%] h-[120%]">
-            <Image 
-              src="/1.webp" 
-              alt="Culinary Art" 
-              fill 
-              className="object-cover" 
-              priority
-            />
-          </div>
-          {/* Glass overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent pointer-events-none" />
+        {/* Background Ambience behind the image window */}
+        <div className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center">
+           <motion.div style={{ y: floatY }} className="w-[800px] h-[800px] bg-primary/10 blur-[150px] rounded-full mix-blend-screen" />
         </div>
 
-        {/* Text Revealer */}
-        <div ref={textRef} className="space-y-8">
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-foreground leading-[1.1]">
-            {wrapWords("Where Taste Becomes Visual Poetry.")}
-          </h2>
-          <div className="w-1/4 h-1 bg-primary rounded-full" />
-          <p className="text-xl md:text-2xl text-foreground/70 font-light leading-relaxed">
-            August Catering redefines gastronomy through hyper-curated dining experiences. We don't just cater events; we sculpt edible masterpieces using the finest ingredients known to Ernakulam.
-          </p>
-          
-          <div className="pt-8">
-            <button className="relative px-8 py-4 rounded-full border border-primary/50 text-foreground overflow-hidden group">
-              <span className="relative z-10 font-bold tracking-widest uppercase text-sm">Experience The Menu</span>
-              <div className="absolute inset-0 bg-primary translate-y-[100%] group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]" />
-            </button>
+        {/* The Masking Container */}
+        <motion.div 
+          style={{
+            width: widthStr,
+            height: heightStr,
+            borderRadius: borderRadius,
+          }}
+          className="relative z-10 overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.8)] flex items-center justify-center will-change-transform"
+        >
+          {/* The Actual Image - Scales slightly for intrinsic parallax */}
+          <motion.div 
+             style={{ scale }} 
+             className="absolute inset-0 w-full h-full bg-[#050505] will-change-transform"
+          >
+            <div className="grid grid-cols-6 grid-rows-6 w-full h-full gap-2 p-2 md:gap-4 md:p-4">
+               {/* Main Focus */}
+               <div className="col-span-4 row-span-4 relative rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-white/5">
+                  <Image src="/images/hero-food.png" alt="Culinary Masterpiece" fill className="object-cover" sizes="(max-width: 768px) 100vw, 66vw" priority />
+               </div>
+               {/* Secondary Accents */}
+               <div className="col-span-2 row-span-3 relative rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-white/5">
+                  <Image src="/images/hero-1.png" alt="Event Setup" fill className="object-cover" sizes="(max-width: 768px) 50vw, 33vw" />
+               </div>
+               <div className="col-span-2 row-span-3 relative rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-white/5">
+                  <Image src="/images/hero-2.png" alt="Gourmet Detail" fill className="object-cover" sizes="(max-width: 768px) 50vw, 33vw" />
+               </div>
+               <div className="col-span-4 row-span-2 relative rounded-[1.5rem] md:rounded-[3rem] overflow-hidden border border-white/5">
+                  <Image src="/1.webp" alt="August Signature" fill className="object-cover" sizes="(max-width: 768px) 100vw, 66vw" />
+               </div>
+            </div>
+            {/* Dynamic Dark Overlay for Text Legibility */}
+            <motion.div style={{ opacity: overlayOpacity }} className="absolute inset-0 bg-black pointer-events-none z-10" />
+          </motion.div>
+
+          {/* The Overlay Content */}
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 mix-blend-normal">
+            <motion.div style={{ y: textY, opacity: textOpacity }} className="flex flex-col items-center">
+              <div className="flex items-center gap-4 mb-8">
+                 <div className="w-12 h-[1px] bg-primary" />
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Philosophy</span>
+                 <div className="w-12 h-[1px] bg-primary" />
+              </div>
+
+              <h2 className="text-[clamp(3.5rem,8vw,7rem)] font-heading font-black text-white leading-[0.9] tracking-tighter uppercase mb-10 drop-shadow-2xl">
+                Where Taste<br />
+                <span className="text-primary italic font-serif">Becomes Poetry.</span>
+              </h2>
+            </motion.div>
+
+            <motion.div style={{ y: pY, opacity: pOpacity }} className="flex flex-col items-center max-w-2xl">
+              <p className="text-xl md:text-2xl text-white/80 font-medium leading-relaxed drop-shadow-lg mb-12">
+                August Catering redefines gastronomy through hyper-curated dining experiences. We don't just cater events; we sculpt edible masterpieces using the finest ingredients known to Ernakulam.
+              </p>
+
+              <button className="group relative inline-flex items-center gap-6 px-12 py-5 bg-primary text-black rounded-full font-bold uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(255,204,0,0.4)] overflow-hidden">
+                <span className="relative z-10 flex items-center gap-3">
+                  Experience The Menu
+                </span>
+                <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-primary transition-all z-10">
+                  <ArrowUpRight size={14} />
+                </div>
+                <div className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]" />
+              </button>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

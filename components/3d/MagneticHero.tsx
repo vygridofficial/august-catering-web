@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import Image from 'next/image';
+import { HeroImageSlider } from '@/components/HeroImageSlider';
 import { useRef } from 'react';
 
 export function MagneticHero() {
@@ -16,30 +16,24 @@ export function MagneticHero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={containerRef} id="hero-section" className="relative w-full h-[100svh] bg-[#050505] overflow-hidden">
+    <section ref={containerRef} id="hero-section" className="relative w-full h-[100svh] bg-[#050505] overflow-hidden group">
       
       {/* High Quality Hero Image Background with Parallax */}
-      <motion.div style={{ y: yBg }} className="absolute inset-x-0 -inset-y-[20%] z-0">
-        <Image 
-          src="/1.webp" 
-          alt="Premium Catering Event" 
-          fill 
-          className="object-cover opacity-60 mix-blend-luminosity filter saturate-50"
-          priority
-        />
-        {/* Core Vignette & Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/30 via-[#050505]/40 to-[#050505]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#050505_100%)] opacity-80" />
+      <motion.div style={{ y: yBg }} className="absolute inset-x-0 -inset-y-[10%] z-0">
+        <HeroImageSlider />
+        
+        {/* Minimal Vignette for Text Legibility - Very Subtle */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-[#050505]/30 z-20 pointer-events-none transition-all duration-1000 group-hover:bg-black/0" />
       </motion.div>
 
-      {/* Hero Typography - Fixed visibility using Framer Motion */}
+      {/* Hero Typography - Highest Layer */}
       <motion.div 
         style={{ y: yText, opacity }}
-        className="absolute inset-0 z-10 pointer-events-none flex flex-col items-center justify-center p-6"
+        className="absolute inset-0 z-30 pointer-events-none flex flex-col items-center justify-center p-6"
       >
         <motion.p 
-          initial={{ opacity: 0, tracking: '0em' }}
-          animate={{ opacity: 1, tracking: '0.4em' }}
+          initial={{ opacity: 0, letterSpacing: '0em' }}
+          animate={{ opacity: 1, letterSpacing: '0.4em' }}
           transition={{ duration: 2, ease: 'easeOut', delay: 0.2 }}
           className="text-primary text-xs sm:text-sm font-black uppercase mb-6 sm:mb-8 font-outfit"
         >

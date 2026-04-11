@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
@@ -11,7 +9,6 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <main className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
-      <Header />
       <section className="pt-32 pb-24">
         <div className="container mx-auto px-6 max-w-4xl space-y-8">
           <div>
@@ -35,7 +32,6 @@ export default function TermsPage() {
           </Link>
         </div>
       </section>
-      <Footer />
     </main>
   );
 }

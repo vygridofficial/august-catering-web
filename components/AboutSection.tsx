@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Sparkles, ArrowRight, ShieldCheck, Zap, Heart } from 'lucide-react';
 
 const ABOUT_BACKDROP_IMAGES = [
   '/1.webp',
@@ -18,12 +19,15 @@ export function AboutSection() {
     offset: ['start end', 'end start']
   });
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [-50, 50]);
-  const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-  const years = useTransform(scrollYProgress, [0.1, 0.4], [1, 15]);
-  const clients = useTransform(scrollYProgress, [0.1, 0.5], [250, 3000]);
-  const rating = useTransform(scrollYProgress, [0.1, 0.4], [3.5, 4.9]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [150, -150]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  
+  // High inertia stats
+  const years = useTransform(scrollYProgress, [0.1, 0.4], [0, 15]);
+  const clients = useTransform(scrollYProgress, [0.1, 0.5], [0, 3000]);
+  const rating = useTransform(scrollYProgress, [0.1, 0.4], [0, 4.9]);
+
   const yearsText = useTransform(years, (latest) => `${Math.round(Number(latest))}+`);
   const clientsText = useTransform(clients, (latest) => `${Math.round(Number(latest))}+`);
   const ratingText = useTransform(rating, (latest) => `${Number(latest).toFixed(1)}★`);
@@ -31,8 +35,7 @@ export function AboutSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setActiveBackdrop((prev) => (prev + 1) % ABOUT_BACKDROP_IMAGES.length);
-    }, 4500);
-
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -40,100 +43,127 @@ export function AboutSection() {
     <section
       ref={containerRef}
       id="about"
-      className="relative py-15 bg-background text-foreground overflow-hidden"
-      style={{ position: 'relative' }}
+      className="relative py-48 bg-transparent text-foreground overflow-hidden font-outfit"
     >
-      {/* Decorative background typography */}
+      {/* Cinematic Background Typography */}
       <motion.div
-        style={{ y: y2 }}
-        className="absolute top-10 left-0 right-0 text-center opacity-[0.03] pointer-events-none select-none"
+        style={{ x: y2, opacity: 0.02 }}
+        className="absolute top-20 left-0 whitespace-nowrap pointer-events-none select-none"
       >
-        <h2 className="text-[8vw] leading-none font-heading font-bold uppercase whitespace-nowrap">
-          A SYMPHONY OF TASTE
+        <h2 className="text-[20vw] font-heading font-black uppercase text-white tracking-widest leading-none">
+          PREMIUM CATERING
         </h2>
       </motion.div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+          
+          {/* Content Array */}
           <motion.div
             style={{ y: y1, opacity }}
-            className="space-y-8"
+            className="space-y-12"
           >
-            <p className="text-primary text-xs font-black uppercase tracking-[0.3em]">Our Story</p>
-            <h2 className="text-5xl md:text-7xl font-heading font-bold text-foreground">
-              The Art of <span className="text-primary italic">Gastronomy.</span>
+            <div className="flex items-center gap-3">
+               <div className="w-12 h-px bg-primary" />
+               <p className="text-primary text-[10px] font-bold uppercase tracking-widest">Our Mission & Values</p>
+            </div>
+            
+            <h2 className="text-6xl md:text-8xl font-heading font-black text-white tracking-tighter leading-[0.8] uppercase">
+              The Story of <br /> <span className="text-primary italic font-serif">August.</span>
             </h2>
-            <p className="text-xl text-foreground/80 font-light leading-relaxed">
-              Based in Ernakulam, August Catering has been a
-              pillar of premium culinary excellence, delivering unforgettable dining experiences.
-            </p>
-            <p className="text-lg text-foreground/60 font-light leading-relaxed">
-              Our skilled and experienced chefs are proficient in a diverse variety of cuisines, ensuring a high-quality dining experience. Rated 4.9 stars by our satisfied clients, we believe that the food should not just satisfy the palate, but elevate the entire occasion.
-            </p>
+            
+            <div className="space-y-8">
+                <p className="text-2xl text-white/70 font-light leading-relaxed max-w-xl">
+                  Based in Ernakulam, <span className="text-white font-bold">August Catering</span> provides a refined approach to event dining.
+                </p>
+                <p className="text-lg text-white/40 font-light leading-relaxed max-w-xl">
+                  We specialize in crafting bespoke menus that blend traditional heritage with modern culinary techniques. Our vision is to elevate every occasion through exceptional food and service.
+                </p>
+            </div>
 
-            <div className="pt-4 flex flex-wrap gap-4">
-              <Link href="/about">
-                <button className="group relative inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 overflow-hidden rounded-full border border-primary text-primary transition-all duration-300 hover:bg-primary hover:text-primary-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-foreground text-sm sm:text-base">
-                  <span className="relative z-10 font-medium tracking-wider">Discover Our Story</span>
+            <div className="flex flex-wrap gap-6">
+              <Link href="/contact">
+                <button className="group relative px-10 py-5 bg-white text-black rounded-2xl text-[10px] font-bold uppercase tracking-wider overflow-hidden transition-all shadow-2xl">
+                  <span className="relative z-10 flex items-center gap-3">Contact Us <ArrowRight size={14} /></span>
+                  <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]" />
                 </button>
               </Link>
-              <Link href="/contact">
-                <button className="group inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 overflow-hidden rounded-full bg-primary/10 text-foreground/70 transition-all duration-300 hover:bg-primary hover:text-primary-foreground text-sm sm:text-base">
-                  <span className="font-medium tracking-wider">Contact Us</span>
+              
+              <Link href="/gallery">
+                <button className="px-10 py-5 bg-white/5 border border-white/5 text-white/40 rounded-2xl text-[10px] font-bold uppercase tracking-wider hover:bg-white/10 hover:text-white hover:border-white/20 transition-all">
+                  View Gallery
                 </button>
               </Link>
             </div>
           </motion.div>
 
-          {/* About visual */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 1.5, ease: 'circOut' }}
-            className="relative w-[80%] h-[80%] m-auto aspect-[4/5] rounded-[2rem] overflow-hidden bg-gradient-to-tr from-primary/20 to-transparent border border-white/10 shadow-2xl shadow-primary/20"
-          >
-            <div className="absolute inset-0 z-0 pointer-events-none">
+          {/* Visual Construct */}
+          <div className="relative group">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, ease: [0.19, 1, 0.22, 1] }}
+              className="relative aspect-[4/5] rounded-[4rem] overflow-hidden border border-white/5 shadow-[0_0_100px_rgba(255,183,0,0.05)] bg-[#080808]"
+            >
+              {/* Liquid Backdrop */}
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={ABOUT_BACKDROP_IMAGES[activeBackdrop]}
-                  className="absolute inset-0"
-                  initial={{ opacity: 0, scale: 1.08 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 1.2, ease: 'easeOut' }}
+                  key={activeBackdrop}
+                  className="absolute inset-x-[-10%] inset-y-[-10%]"
+                  initial={{ opacity: 0, scale: 1.2, filter: 'blur(20px)' }}
+                  animate={{ opacity: 0.4, scale: 1, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, scale: 1.1, filter: 'blur(20px)' }}
+                  transition={{ duration: 2, ease: 'easeOut' }}
                 >
                   <Image
                     src={ABOUT_BACKDROP_IMAGES[activeBackdrop]}
-                    alt="August Catering ambience"
+                    alt="August Catering atmosphere"
                     fill
-                    className="object-cover opacity-60"
+                    className="object-cover"
                   />
                 </motion.div>
               </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/20 to-background/60" />
-            </div>
 
-            <div className="absolute inset-0 bg-background/10 backdrop-blur-[2px] flex flex-col items-center justify-center gap-4 sm:gap-6 p-4 sm:p-8">
-              <div className="w-64 h-64 bg-primary/20 rounded-full blur-[100px] absolute" />
-              <div className="relative z-10 text-center space-y-3 sm:space-y-4">
-                <div className="bg-background/40 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
-                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-foreground">{yearsText}</motion.p>
-                  <p className="text-foreground/60 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Years of Excellence</p>
-                </div>
-                <div className="bg-background/40 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
-                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-foreground">{clientsText}</motion.p>
-                  <p className="text-foreground/60 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Happy Clients</p>
-                </div>
-                <div className="bg-background/40 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
-                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-foreground">{ratingText}</motion.p>
-                  <p className="text-foreground/60 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Average Rating</p>
+              {/* Glass Stats HUD */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center p-12">
+                {/* Center Glow */}
+                <div className="w-80 h-80 bg-primary/10 rounded-full blur-[100px] absolute" />
+                
+                <div className="relative z-10 w-full grid grid-cols-1 gap-6">
+                  {[
+                    { label: 'Years of Service', value: yearsText, icon: Zap },
+                    { label: 'Happy Clients', value: clientsText, icon: ShieldCheck },
+                    { label: 'Average Rating', value: ratingText, icon: Heart },
+                  ].map((stat, i) => (
+                    <motion.div 
+                      key={i}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.5 + (i * 0.1) }}
+                      className="group/stat bg-white/[0.01] backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 hover:border-primary/30 hover:bg-white/[0.03] transition-all duration-700"
+                    >
+                      <div className="flex items-center justify-between">
+                         <div>
+                            <motion.p className="text-4xl font-heading font-black text-white tracking-tighter">{stat.value}</motion.p>
+                            <p className="text-[9px] font-bold uppercase tracking-widest text-white/20 mt-2">{stat.label}</p>
+                         </div>
+                         <stat.icon size={24} className="text-white/10 group-hover/stat:text-primary transition-colors duration-700" />
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+            
+            {/* Outlying Geometric Element */}
+            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+          </div>
+
         </div>
       </div>
     </section>
   );
 }
+

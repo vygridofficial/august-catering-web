@@ -1,115 +1,64 @@
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { CircularCarousel } from '@/components/CircularCarousel';
 import { db } from '@/lib/firebase';
+import { ServicesPageClient } from '@/components/ServicesPageClient';
 
 export const dynamic = 'force-dynamic';
 
 const FALLBACK_SERVICES = [
   {
     id: '1',
-    title: 'Wedding Receptions',
-    subtitle: 'Grand Celebrations',
-    image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800',
-    price: 'Starting at ₹1,50,000'
+    title: 'Wedding Orchestration',
+    subtitle: 'Grand Culinary Theatre',
+    description: 'We orchestrate awe-inspiring weddings that reflect your unique love story. From an elegant multi-course dinner to dramatic live culinary stations, our bespoke menus are designed to leave a lasting impression on your guests.',
+    image: '/1.webp',
   },
   {
     id: '2',
     title: 'Corporate Galas',
-    subtitle: 'Professional Dining',
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=800',
-    price: 'Custom Pricing'
+    subtitle: 'Executive Dining Experiences',
+    description: 'Elevate your brand with sophisticated catering designed for high-profile business events. Whether launching a product or celebrating a milestone, we provide seamless, white-glove service that aligns with your corporate standards.',
+    image: '/2.webp',
   },
   {
     id: '3',
     title: 'Private Omakase',
-    subtitle: 'Exclusive Experience',
-    image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=800',
-    price: 'Starting at ₹25,000'
+    subtitle: 'Intimate Masterclasses',
+    description: 'An exclusive, immersive dining experience within the comfort of your own venue. Watch our master chefs craft exquisite tasting menus right before your eyes, pairing each course with curated wine and spirits.',
+    image: '/3.webp',
   }
 ];
 
 const SERVICE_IMAGES = [
-  'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&q=80&w=800',
-  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=80&w=800',
+  '/1.webp',
+  '/2.webp',
+  '/3.webp',
 ];
 
-async function getLiveServices() {
+export default async function ServicesPage() {
+  let cateringServices = [];
+
   try {
     const snapshot = await db.collection('services').orderBy('createdAt', 'asc').get();
-    const services = snapshot.docs
-      .map(doc => {
-        const data = doc.data() as {
-          title?: string;
-          style?: string;
-          isActive?: boolean;
-        };
+    cateringServices = snapshot.docs
+      .map((doc, index) => {
+        const data = doc.data() as any;
         return {
           id: doc.id,
           title: data.title || 'Service',
           subtitle: data.style || 'Signature Service',
+          description: data.description || 'Exclusive culinary experience tailored to perfection.',
           isActive: data.isActive !== false,
+          image: data.image || data.url || SERVICE_IMAGES[index % SERVICE_IMAGES.length],
         };
       })
-      .filter(item => item.isActive)
-      .map((item, index) => ({
-        id: item.id,
-        title: item.title,
-        subtitle: item.subtitle,
-        image: SERVICE_IMAGES[index % SERVICE_IMAGES.length],
-      }));
+      .filter(item => item.isActive);
 
-    return services.length > 0 ? services : FALLBACK_SERVICES;
+    if (cateringServices.length === 0) {
+      cateringServices = FALLBACK_SERVICES;
+    }
   } catch (error) {
-    console.error('Error loading services page data:', error);
-    return FALLBACK_SERVICES;
+    console.error('Error loading services in Server Component:', error);
+    cateringServices = FALLBACK_SERVICES;
   }
-}
 
-export default async function ServicesPage() {
-  const cateringServices = await getLiveServices();
-
-  return (
-    <main className="min-h-screen bg-background text-foreground antialiased selection:bg-primary selection:text-primary-foreground">
-      <Header />
-      
-      <section className="pt-28 sm:pt-32 md:pt-36 lg:pt-40 pb-14 sm:pb-20 px-4 sm:px-6 container mx-auto">
-        <div className="max-w-4xl mx-auto text-center mb-24">
-          <h1 className="text-6xl md:text-8xl font-heading font-extrabold tracking-tighter mb-6">
-            Curated <span className="text-primary">Experiences</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-foreground/70 font-light">
-            From intimate gatherings to grand celebrations, we engineer perfection onto every plate.
-          </p>
-        </div>
-
-        <div className="w-full mt-4 md:mt-0 lg:-mt-20">
-          <CircularCarousel items={cateringServices} />
-        </div>
-
-        <div className="max-w-5xl mx-auto mt-12 md:mt-16 rounded-[2rem] border border-border bg-secondary/20 backdrop-blur-sm p-4 sm:p-6 md:p-8">
-          <div className="flex items-center justify-between gap-4 mb-5">
-            <h2 className="text-lg sm:text-xl font-heading font-bold">Services Overview</h2>
-            <span className="text-xs font-bold uppercase tracking-widest text-foreground/50">{cateringServices.length} total</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {cateringServices.map((service, idx) => (
-              <div key={service.id} className="rounded-2xl border border-border/70 bg-background/70 px-4 py-3">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/70 mb-1">
-                  {String(idx + 1).padStart(2, '0')}
-                </p>
-                <p className="font-semibold text-base leading-tight">{service.title}</p>
-                <p className="text-sm text-foreground/60 mt-1">{service.subtitle}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </main>
-  );
+  return <ServicesPageClient services={cateringServices} />;
 }

@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       const encryptedSession = await encrypt(sessionData, expiresIn);
       const maxAge = rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24 * 7;
 
-      cookieStore.set('gk_admin_session', encryptedSession, {
+      cookieStore.set('august_catering_admin_session', encryptedSession, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',

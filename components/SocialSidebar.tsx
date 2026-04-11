@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Phone, Mail, MapPin, House, MessageCircle, X } from 'lucide-react';
+import { Phone, Mail, MapPin, House, MessageCircle, X, ArrowRight, Share2, Terminal } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import { getSocialSettings } from '@/lib/actions/database';
 
 const Instagram = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
@@ -14,19 +15,18 @@ const Instagram = (props: any) => (
 );
 
 const Facebook = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
   </svg>
 );
 
 const Globe = (props: any) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <circle cx="12" cy="12" r="10"/>
     <line x1="2" y1="12" x2="22" y2="12"/>
     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
   </svg>
 );
-import { getSocialSettings } from '@/lib/actions/database';
 
 export function SocialSidebar() {
   const [links, setLinks] = useState<any[]>([]);
@@ -54,64 +54,46 @@ export function SocialSidebar() {
             </svg>
           ),
           href: `https://wa.me/${whatsapp}`,
-          color: 'hover:bg-[#25D366] hover:border-[#25D366]/50',
-          textColor: 'hover:text-white',
-          label: 'Chat on WhatsApp',
+          color: 'group-hover:text-[#25D366]',
+          glow: 'bg-[#25D366]/5',
+          label: 'WhatsApp Status',
           active: !!whatsapp
         },
         {
           name: 'Call',
           icon: Phone,
           href: `tel:${phone}`,
-          color: 'hover:bg-primary hover:border-primary/50',
-          textColor: 'hover:text-primary-foreground',
-          label: 'Call Us',
+          color: 'group-hover:text-primary',
+          glow: 'bg-primary/5',
+          label: 'Direct Frequency',
           active: !!phone
         },
         {
           name: 'Instagram',
           icon: Instagram,
           href: instagram,
-          color: 'hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:border-[#ee2a7b]/50',
-          textColor: 'hover:text-white',
-          label: 'Follow on Instagram',
+          color: 'group-hover:text-[#ee2a7b]',
+          glow: 'bg-[#ee2a7b]/5',
+          label: 'Visual Archive',
           active: !!instagram
         },
         {
           name: 'Facebook',
           icon: Facebook,
           href: facebook,
-          color: 'hover:bg-[#1877F2] hover:border-[#1877F2]/50',
-          textColor: 'hover:text-white',
-          label: 'Follow on Facebook',
+          color: 'group-hover:text-[#1877F2]',
+          glow: 'bg-[#1877F2]/5',
+          label: 'Community Node',
           active: !!facebook
-        },
-        {
-          name: 'Email',
-          icon: Mail,
-          href: `mailto:${email}`,
-          color: 'hover:bg-primary hover:border-primary/50',
-          textColor: 'hover:text-primary-foreground',
-          label: 'Email Us',
-          active: !!email
         },
         {
           name: 'Location',
           icon: MapPin,
           href: location,
-          color: 'hover:bg-primary hover:border-primary/50',
-          textColor: 'hover:text-primary-foreground',
-          label: 'View on Maps',
+          color: 'group-hover:text-primary',
+          glow: 'bg-primary/5',
+          label: 'Navigational Coordinate',
           active: !!location
-        },
-        {
-          name: 'Justdial',
-          icon: Globe,
-          href: justdial,
-          color: 'hover:bg-[#FF8A00] hover:border-[#FF8A00]/50',
-          textColor: 'hover:text-white',
-          label: 'View on Justdial',
-          active: !!justdial
         }
       ].filter(link => link.active);
 
@@ -121,9 +103,9 @@ export function SocialSidebar() {
               name: 'Home',
               icon: House,
               href: '/',
-              color: 'hover:bg-primary hover:border-primary/50',
-              textColor: 'hover:text-primary-foreground',
-              label: 'Back to Home',
+              color: 'group-hover:text-primary',
+              glow: 'bg-primary/5',
+              label: 'Return Home',
               active: true,
               external: false,
             },
@@ -142,76 +124,86 @@ export function SocialSidebar() {
 
   if (links.length === 0) return null;
 
-  const mobileLinks = links.slice(0, 5);
-
   return (
     <>
-      <div className="fixed right-4 bottom-4 z-[100] md:hidden">
+      {/* Cinematic Mobile HUD */}
+      <div className="fixed right-6 bottom-6 z-[200] md:hidden">
         <AnimatePresence>
           {isOpen && (
             <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 20, scale: 0.96 }}
-              transition={{ duration: 0.2 }}
-              className="mb-3 flex flex-col gap-2 items-end"
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="mb-6 flex flex-col gap-4 items-end"
             >
-              {mobileLinks.map((link, index) => (
+              {links.map((link, index) => (
                 <motion.a
                   key={link.name}
                   href={link.href}
                   target={link.external === false ? undefined : '_blank'}
                   rel={link.external === false ? undefined : 'noopener noreferrer'}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ delay: index * 0.04 }}
-                  className={`group flex items-center gap-3 rounded-full bg-background/90 backdrop-blur-2xl border border-foreground/10 text-foreground/80 px-4 py-3 shadow-[0_8px_30px_rgb(0,0,0,0.16)] ${link.color} ${link.textColor}`}
-                  title={link.label}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
                   onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-4 py-3 px-5 rounded-2xl bg-black/40 backdrop-blur-3xl border border-white/10 text-white/40 active:bg-primary/10 active:text-primary transition-all shadow-2xl"
                 >
-                  <span className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center shrink-0">
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em]">{link.label}</span>
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
                     <link.icon className="w-4 h-4" />
-                  </span>
-                  <span className="text-sm font-semibold whitespace-nowrap">{link.label}</span>
+                  </div>
                 </motion.a>
               ))}
             </motion.div>
           )}
         </AnimatePresence>
 
-        <button
-          type="button"
-          onClick={() => setIsOpen((open) => !open)}
-          className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-2xl shadow-primary/30 border border-primary/20"
-          aria-label={isOpen ? 'Close social links' : 'Open social links'}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setIsOpen(!isOpen)}
+          className="w-16 h-16 rounded-[2rem] bg-primary text-black flex items-center justify-center shadow-[0_0_50px_rgba(255,183,0,0.2)] border border-primary/20 relative z-10"
         >
-          {isOpen ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}
-        </button>
+          {isOpen ? <X size={24} /> : <Terminal size={24} />}
+        </motion.button>
       </div>
 
-      <div className="fixed right-4 md:right-6 top-1/2 -translate-y-1/2 z-[100] hidden md:flex flex-col gap-3">
+      {/* Cinematic Desktop Sidebar - Signal Array */}
+      <div className="fixed right-8 top-1/2 -translate-y-1/2 z-[200] hidden md:flex flex-col gap-5 font-outfit">
         {links.map((link, index) => (
           <motion.a
             key={link.name}
             href={link.href}
             target={link.external === false ? undefined : '_blank'}
             rel={link.external === false ? undefined : 'noopener noreferrer'}
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 + 0.5 }}
-            whileHover={{ x: -8, scale: 1.1 }}
-            className={`group relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-2xl bg-background/40 backdrop-blur-2xl border border-foreground/10 text-foreground/70 transition-all duration-300 ${link.color} ${link.textColor} shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-2xl`}
+            transition={{ delay: index * 0.1 + 1, duration: 1, ease: [0.19, 1, 0.22, 1] }}
+            className="group relative w-14 h-14 flex items-center justify-center rounded-2xl bg-white/[0.01] backdrop-blur-3xl border border-white/5 text-white/20 transition-all duration-700 hover:border-primary/30 hover:shadow-[0_0_40px_rgba(255,183,0,0.05)]"
             title={link.label}
           >
-            <link.icon className="w-5 h-5" />
+            {/* Visual Echo */}
+            <div className={`absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 ${link.glow} blur-xl`} />
+            
+            <link.icon className={`w-5 h-5 relative z-10 transition-all duration-500 ${link.color} group-hover:scale-110`} />
 
-            <span className="absolute right-full mr-4 px-3 py-1.5 rounded-lg bg-foreground text-background text-[10px] font-black uppercase tracking-widest whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none translate-x-2 group-hover:translate-x-0 duration-300 shadow-2xl z-[101]">
-              {link.label}
-            </span>
+            {/* Matrix Tooltip */}
+            <div className="absolute right-full mr-8 px-5 py-3 rounded-xl bg-black/80 backdrop-blur-3xl border border-white/5 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none translate-x-4 group-hover:translate-x-0 overflow-hidden min-w-[180px]">
+                <div className="absolute left-0 top-0 w-[2px] h-full bg-primary" />
+                <p className="text-[8px] font-black uppercase tracking-[0.5em] text-primary/40 mb-1">Signal Protocol</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white whitespace-nowrap">
+                  {link.label}
+                </p>
+                {/* Micro-shimmer */}
+                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-[1500ms]" />
+            </div>
           </motion.a>
         ))}
+        
+        {/* Connection Tether */}
+        <div className="absolute -bottom-24 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-t from-transparent via-white/5 to-transparent" />
       </div>
     </>
   );
 }
+

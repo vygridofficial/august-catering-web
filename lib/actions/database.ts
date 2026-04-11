@@ -4,6 +4,20 @@ import { db, admin } from '@/lib/firebase';
 import { verifyAdminSession } from '@/lib/session';
 import webpush from 'web-push';
 
+/** Recursively convert Firestore Timestamps (and any object with _seconds) to ISO strings */
+function serializeDoc(data: any): any {
+  if (data === null || data === undefined) return data;
+  if (typeof data?.toDate === 'function') return data.toDate().toISOString();
+  if (data?._seconds !== undefined && data?._nanoseconds !== undefined) {
+    return new Date(data._seconds * 1000 + data._nanoseconds / 1e6).toISOString();
+  }
+  if (Array.isArray(data)) return data.map(serializeDoc);
+  if (typeof data === 'object') {
+    return Object.fromEntries(Object.entries(data).map(([k, v]) => [k, serializeDoc(v)]));
+  }
+  return data;
+}
+
 const BOOKING_STATUSES = ['booking_request', 'contacted', 'confirmed', 'closed'] as const;
 
 type NotificationType = 'booking' | 'enquiry';
@@ -971,7 +985,7 @@ export async function getSocialSettings() {
         instagram: 'https://www.instagram.com/augustcatering/',
         facebook: 'https://www.facebook.com/augustcatering/',
         email: 'info@augustcatering.in',
-        location: 'https://www.google.com/maps/search/?api=1&query=Gateway+Kitchen+Caterers+Thiruvaniyoor'
+        location: 'https://www.google.com/maps/search/?api=1&query=August+Catering+Kochi+Thiruvaniyoor'
       };
     }
     const data = doc.data();

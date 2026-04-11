@@ -18,7 +18,7 @@ export function AbstractTree() {
   return (
     <group ref={groupRef}>
       <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-        {/* Core Trunk / Gateway */}
+        {/* Core Trunk / August Catering Portal */}
         <mesh position={[0, -1, 0]}>
           <cylinderGeometry args={[0.3, 0.6, 4, 32]} />
           <MeshTransmissionMaterial 
