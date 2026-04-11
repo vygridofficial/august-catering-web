@@ -1,0 +1,44 @@
+name: Vercel Autodeploy Bot
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  trigger-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.BOT_PAT }}
+          fetch-depth: 2
+
+      - name: Check commit author
+        id: check
+        run: |
+          AUTHOR=$(git log -1 --format='%ae')
+          OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}"
+          if [ "$AUTHOR" = "$OWNER_EMAIL" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Trigger deploy via README bump
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          git config user.email "${{ secrets.OWNER_EMAIL }}"
+          git config user.name "${{ secrets.OWNER_NAME }}"
+
+          # Toggle a trailing space on/off to keep changes minimal
+          if grep -q ' $' README.md; then
+            sed -i 's/ $//' README.md
+          else
+            echo "" >> README.md
+            echo -n " " >> README.md
+          fi
+
+          git add README.md
+          git commit -m "chore: trigger deploy [skip ci]"
+          git push

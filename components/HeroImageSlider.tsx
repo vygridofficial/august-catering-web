@@ -1,0 +1,73 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { getHeroImages } from '@/lib/actions/database';
+
+import Image from 'next/image';
+
+const FALLBACK_IMAGE = '/images/bg1.jpg';
+
+import { Skeleton } from './ui/Skeleton';
+
+export function HeroImageSlider() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [images, setImages] = useState<string[]>([FALLBACK_IMAGE]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      setLoading(true);
+      const data = await getHeroImages();
+      if (data && data.length > 0) {
+        const active = data.filter((img: any) => img.isActive).map((img: any) => img.url);
+        setImages(active.length > 0 ? active : [FALLBACK_IMAGE]);
+      } else {
+        setImages([FALLBACK_IMAGE]);
+      }
+      setLoading(false);
+    };
+    fetchImages();
+  }, []);
+
+  useEffect(() => {
+    if (loading || images.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [images.length, loading]);
+
+  if (loading) return <Skeleton className="absolute inset-0 z-0" />;
+
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden bg-background">
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={currentIndex}
+          className="absolute inset-0"
+          initial={{ clipPath: 'circle(0% at 50% 50%)', scale: 1.05, opacity: 0 }}
+          animate={{ clipPath: 'circle(150% at 50% 50%)', scale: 1, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ 
+            clipPath: { duration: 1.5, ease: [0.77, 0, 0.175, 1] },
+            scale: { duration: 5, ease: "linear" }, 
+            opacity: { duration: 1 }
+          }}
+        >
+          {images[currentIndex] && (
+            <Image
+              src={images[currentIndex]}
+              alt="Gateway Kitchen Premium Catering Setup"
+              fill
+              priority={currentIndex === 0}
+              className="object-cover object-top md:object-center"
+              quality={100}
+            />
+          )}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+
+  );
+}
