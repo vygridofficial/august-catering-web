@@ -104,6 +104,12 @@ export function GallerySection({ showHeader = true, limit = 12 }: GallerySection
                 <Skeleton key={i} className={`w-full h-full rounded-[2rem] bg-white/5 border border-white/5 ${bentoClass}`} />
               )
             })
+          ) : images.length === 0 ? (
+            <div className="md:col-span-4 py-24 px-6 text-center border border-dashed border-white/10 rounded-[2rem] bg-white/[0.01]">
+              <p className="text-xs font-bold uppercase tracking-widest text-white/50">
+                Gallery photos will appear here soon.
+              </p>
+            </div>
           ) : (
             images.map((img, idx) => {
               if (!img.url) return null;
@@ -295,4 +301,3 @@ const ArrowIcon = () => (
         <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
 );
-

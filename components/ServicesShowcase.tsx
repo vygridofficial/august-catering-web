@@ -68,8 +68,10 @@ export function ServicesShowcase() {
                <Skeleton className="w-full h-[600px] rounded-[3.5rem] bg-white/[0.02] border border-white/5 hidden md:block" />
           </div>
         ) : services.length === 0 ? (
-          <div className="py-32 text-center text-white/10 font-bold uppercase tracking-widest border border-dashed border-white/5 rounded-[4rem]">
-            Awaiting service modules...
+          <div className="py-32 text-center border border-dashed border-white/10 rounded-[4rem] bg-white/[0.01]">
+            <p className="text-xs font-bold uppercase tracking-widest text-white/50">
+              Services will appear here soon.
+            </p>
           </div>
         ) : (
           <div className="flex flex-col items-center">

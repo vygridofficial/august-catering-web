@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/firebase';
+import { db, projectCollection } from '@/lib/firebase';
 import { verifyAdminSession } from '@/lib/session';
 
 function getSubscriptionDocId(endpoint: string) {
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid subscription' }, { status: 400 });
     }
 
-    await db.collection('pushSubscriptions').doc(getSubscriptionDocId(endpoint)).delete();
+    await projectCollection('pushSubscriptions').doc(getSubscriptionDocId(endpoint)).delete();
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error removing push subscription:', error);

@@ -80,26 +80,25 @@ export function LiquidAbout() {
           {/* The Overlay Content */}
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 mix-blend-normal">
             <motion.div style={{ y: textY, opacity: textOpacity }} className="flex flex-col items-center">
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex items-center gap-4 mb-6">
                  <div className="w-12 h-[1px] bg-primary" />
-                 <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Philosophy</span>
+                 <span className="text-[10px] font-black uppercase tracking-[0.28em] text-primary">Our Philosophy</span>
                  <div className="w-12 h-[1px] bg-primary" />
               </div>
 
-              <h2 className="text-[clamp(3.5rem,8vw,7rem)] font-heading font-black text-white leading-[0.9] tracking-tighter uppercase mb-10 drop-shadow-2xl">
-                Where Taste<br />
-                <span className="text-primary italic font-serif">Becomes Poetry.</span>
+              <h2 className="text-[clamp(2.2rem,5.2vw,4.6rem)] font-heading font-bold text-white leading-[1.02] tracking-[-0.02em] mb-6 drop-shadow-xl">
+                Elegant food, seamless service.
               </h2>
             </motion.div>
 
-            <motion.div style={{ y: pY, opacity: pOpacity }} className="flex flex-col items-center max-w-2xl">
-              <p className="text-xl md:text-2xl text-white/80 font-medium leading-relaxed drop-shadow-lg mb-12">
-                August Catering redefines gastronomy through hyper-curated dining experiences. We don't just cater events; we sculpt edible masterpieces using the finest ingredients known to Ernakulam.
+            <motion.div style={{ y: pY, opacity: pOpacity }} className="flex flex-col items-center max-w-3xl">
+              <p className="max-w-2xl text-base md:text-xl text-white/75 font-normal leading-relaxed drop-shadow-md mb-10">
+                We design every menu around your occasion and deliver it with precision, warmth, and attention to detail.
               </p>
 
               <button className="group relative inline-flex items-center gap-6 px-12 py-5 bg-primary text-black rounded-full font-bold uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-[0_20px_40px_-10px_rgba(255,204,0,0.4)] overflow-hidden">
                 <span className="relative z-10 flex items-center gap-3">
-                  Experience The Menu
+                  Explore The Menu
                 </span>
                 <div className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-primary transition-all z-10">
                   <ArrowUpRight size={14} />

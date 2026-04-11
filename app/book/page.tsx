@@ -22,6 +22,19 @@ import {
 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/Skeleton';
 
+const FALLBACK_EVENT_TYPES = [
+  { id: 'wedding', label: 'Wedding', description: 'Classic and grand wedding catering.', icon: '💍' },
+  { id: 'corporate', label: 'Corporate', description: 'Professional service for business events.', icon: '🏢' },
+  { id: 'private', label: 'Private Party', description: 'Curated menus for intimate gatherings.', icon: '🎉' },
+  { id: 'special', label: 'Special Occasion', description: 'Tailored dining for milestone events.', icon: '✨' },
+];
+
+const FALLBACK_CULINARY_STYLES = [
+  { id: 'kerala', label: 'Kerala Traditional', description: 'Authentic regional flavors and classics.', icon: '🍛' },
+  { id: 'multi', label: 'Multi Cuisine', description: 'Balanced spread across popular cuisines.', icon: '🍽️' },
+  { id: 'fusion', label: 'Contemporary Fusion', description: 'Modern plating with creative flavor pairing.', icon: '🥂' },
+];
+
 export default function BookEventPage() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -55,6 +68,9 @@ export default function BookEventPage() {
     };
     fetch();
   }, []);
+
+  const availableEventTypes = eventTypes.length > 0 ? eventTypes : FALLBACK_EVENT_TYPES;
+  const availableCulinaryStyles = culinaryStyles.length > 0 ? culinaryStyles : FALLBACK_CULINARY_STYLES;
 
   const nextStep = () => setStep(s => Math.min(s + 1, 4));
   const prevStep = () => setStep(s => Math.max(s - 1, 1));
@@ -161,7 +177,7 @@ export default function BookEventPage() {
                                 <Skeleton key={i} className="h-32 rounded-[2rem] bg-white/5 border border-white/5" />
                               ))
                             ) : (
-                              eventTypes.map((type) => (
+                              availableEventTypes.map((type) => (
                                 <button
                                   key={type.id}
                                   type="button"
@@ -232,7 +248,7 @@ export default function BookEventPage() {
                                 <Skeleton key={i} className="h-28 rounded-[2rem] bg-white/5 border border-white/5" />
                               ))
                             ) : (
-                              culinaryStyles.map((style) => (
+                              availableCulinaryStyles.map((style) => (
                                 <div key={style.id} className="group relative">
                                   <button
                                     type="button"

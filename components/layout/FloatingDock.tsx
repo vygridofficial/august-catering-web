@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Info, UtensilsCrossed, Image as ImageIcon, Phone } from 'lucide-react';
+import { Home, Info, UtensilsCrossed, ChefHat, Image as ImageIcon, Phone } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
@@ -11,6 +11,7 @@ const navItems = [
   { href: '/', icon: Home, label: 'Home' },
   { href: '/about', icon: Info, label: 'About' },
   { href: '/services', icon: UtensilsCrossed, label: 'Services' },
+  { href: '/menu', icon: ChefHat, label: 'Menu' },
   { href: '/gallery', icon: ImageIcon, label: 'Gallery' },
   { href: '/contact', icon: Phone, label: 'Contact' },
 ];
@@ -19,6 +20,7 @@ export function FloatingDock() {
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const shouldShowDock = pathname === '/' ? true : scrolled;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,8 +32,8 @@ export function FloatingDock() {
   
   return (
     <AnimatePresence>
-      {scrolled && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] pointer-events-auto font-outfit">
+      {shouldShowDock && (
+        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[200] pointer-events-auto font-outfit hidden md:block">
           <motion.div 
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

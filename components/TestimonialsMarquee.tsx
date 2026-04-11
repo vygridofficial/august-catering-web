@@ -97,8 +97,10 @@ export function TestimonialsMarquee() {
             ))}
           </div>
         ) : reviews.length === 0 ? (
-          <div className="w-full text-center py-24 text-white/10">
-            <p className="text-xs font-bold uppercase tracking-widest">No reviews found yet.</p>
+          <div className="w-full text-center py-24">
+            <p className="text-xs font-bold uppercase tracking-widest text-white/50">
+              Be the first to share your experience.
+            </p>
           </div>
         ) : (
           <motion.div

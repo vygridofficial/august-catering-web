@@ -1,10 +1,10 @@
 'use server';
 
-import { db } from '@/lib/firebase';
+import { db, projectCollection } from '@/lib/firebase';
 
 export async function getHeroImages() {
   try {
-    const snapshot = await db.collection('hero_images').get();
+    const snapshot = await projectCollection('hero_images').get();
     return snapshot.docs.map(doc => {
       const data = doc.data();
       return {
@@ -21,7 +21,7 @@ export async function getHeroImages() {
 
 export async function addHeroImage(url: string, alt?: string) {
   try {
-    const doc = await db.collection('hero_images').add({
+    const doc = await projectCollection('hero_images').add({
       url,
       alt: alt || 'August Catering Hero',
       isActive: true,
@@ -36,7 +36,7 @@ export async function addHeroImage(url: string, alt?: string) {
 
 export async function updateHeroImageStatus(id: string, isActive: boolean) {
   try {
-    await db.collection('hero_images').doc(id).update({ isActive });
+    await projectCollection('hero_images').doc(id).update({ isActive });
     return { success: true };
   } catch (err) {
     console.error('Error updating hero image status:', err);
@@ -46,7 +46,7 @@ export async function updateHeroImageStatus(id: string, isActive: boolean) {
 
 export async function deleteHeroImage(id: string) {
   try {
-    await db.collection('hero_images').doc(id).delete();
+    await projectCollection('hero_images').doc(id).delete();
     return { success: true };
   } catch (err) {
     console.error('Error deleting hero image:', err);

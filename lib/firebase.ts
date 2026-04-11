@@ -17,4 +17,12 @@ if (!admin.apps.length) {
 
 export const db = admin.firestore();
 export const adminAuth = admin.auth();
+
+// Prefix all collections per project so multiple projects can share one Firestore database.
+// Configure per-project via FIREBASE_COLLECTION_PREFIX env var.
+export const COLLECTION_PREFIX = process.env.FIREBASE_COLLECTION_PREFIX || 'augustcatering';
+
+export const projectCollection = (name: string) =>
+  db.collection(`${COLLECTION_PREFIX}_${name}`);
+
 export { admin };

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { admin, db } from '@/lib/firebase';
+import { admin, db, projectCollection } from '@/lib/firebase';
 import { verifyAdminSession } from '@/lib/session';
 
 function getSubscriptionDocId(endpoint: string) {
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     }
 
     const docId = getSubscriptionDocId(subscription.endpoint);
-    await db.collection('pushSubscriptions').doc(docId).set(
+    await projectCollection('pushSubscriptions').doc(docId).set(
       {
         endpoint: subscription.endpoint,
         subscription,

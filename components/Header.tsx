@@ -10,6 +10,7 @@ import Image from 'next/image';
 export function Header() {
   const pathname = usePathname();
   const isAdminRoute = pathname.startsWith('/admin') || pathname.startsWith('/login');
+  const isHomeRoute = pathname === '/';
 
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -89,7 +90,7 @@ export function Header() {
           y: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
           opacity: { duration: 0.4 },
         }}
-        className={`fixed top-0 left-0 right-0 z-[100] font-outfit transition-all duration-500 ${scrolled ? 'py-4' : 'py-10'}`}
+        className={`fixed top-0 left-0 right-0 z-[100] font-outfit transition-all duration-500 ${scrolled ? 'py-4' : 'py-10'} ${isHomeRoute ? 'lg:hidden' : ''}`}
       >
         <div className="container mx-auto px-6 relative z-10">
           <div className="relative px-8 py-4 rounded-[2rem] border overflow-hidden flex items-center justify-between">
@@ -229,7 +230,7 @@ export function Header() {
               </Link>
               <div className="flex items-center justify-between text-white/20">
                   <p className="text-[10px] font-bold uppercase tracking-widest">© 2026 AUGUST CATERING.</p>
-                  <p className="text-[10px] font-bold uppercase tracking-widest italic font-serif">Kerala's Premier Caterer</p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest italic font-serif">Kerala&rsquo;s Premier Caterer</p>
               </div>
             </div>
           </motion.div>

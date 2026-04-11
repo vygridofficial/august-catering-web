@@ -1,6 +1,6 @@
 'use server';
 
-import { db, admin } from '@/lib/firebase';
+import { db, admin, projectCollection } from '@/lib/firebase';
 import { verifyAdminSession } from '@/lib/session';
 import webpush from 'web-push';
 
@@ -71,7 +71,7 @@ async function createNotification({ type, sourceId, data }: CreateNotificationIn
     ? `${name}${eventType ? ` • ${eventType}` : ''}${phone ? ` • ${phone}` : ''}`
     : `${name}${phone ? ` • ${phone}` : ''}`;
 
-  await db.collection('notifications').add({
+  await projectCollection('notifications').add({
     type,
     sourceId,
     title,
@@ -177,7 +177,7 @@ function ensureWebPushConfigured() {
 async function sendWebPushAlert(payload: Record<string, any>) {
   if (!ensureWebPushConfigured()) return;
 
-  const subscriptions = await db.collection('pushSubscriptions').get();
+  const subscriptions = await projectCollection('pushSubscriptions').get();
   if (subscriptions.empty) return;
 
   const message = JSON.stringify({
@@ -230,7 +230,7 @@ async function sendExternalAdminAlert(input: SendExternalAlertInput) {
  */
 export async function getGalleryItems(limitCount = 8) {
   try {
-    const snapshot = await db.collection('gallery')
+    const snapshot = await projectCollection('gallery')
       .orderBy('createdAt', 'desc')
       .limit(limitCount)
       .get();
@@ -252,7 +252,7 @@ export async function getGalleryItems(limitCount = 8) {
 export async function addGalleryItem(url: string, alt?: string, type: 'image' | 'video' = 'image') {
   try {
     if (!(await verifyAdminSession())) return { success: false, error: 'Unauthorized' };
-    const docRef = await db.collection('gallery').add({
+    const docRef = await projectCollection('gallery').add({
       url,
       alt: alt || '',
       type,
@@ -268,7 +268,7 @@ export async function addGalleryItem(url: string, alt?: string, type: 'image' | 
 export async function deleteGalleryItem(id: string) {
   try {
     if (!(await verifyAdminSession())) return { success: false, error: 'Unauthorized' };
-    await db.collection('gallery').doc(id).delete();
+    await projectCollection('gallery').doc(id).delete();
     return { success: true };
   } catch (error) {
     console.error('Error deleting gallery item:', error);
@@ -283,7 +283,7 @@ export async function submitEnquiry(data: any) {
   try {
     const status = resolveSubmissionStatus(data);
     const kind = resolveSubmissionKind(data);
-    const docRef = await db.collection('enquiries').add({
+    const docRef = await projectCollection('enquiries').add({
       ...data,
       status,
       kind,
@@ -346,7 +346,7 @@ export async function getEnquiries() {
 export async function deleteEnquiry(id: string) {
   try {
     if (!(await verifyAdminSession())) return { success: false, error: 'Unauthorized' };
-    await db.collection('enquiries').doc(id).delete();
+    await projectCollection('enquiries').doc(id).delete();
     return { success: true };
   } catch (error) {
     console.error('Error deleting enquiry:', error);
@@ -421,7 +421,7 @@ export async function getNotifications(limitCount = 30) {
 export async function getUnreadNotificationCount() {
   try {
     if (!(await verifyAdminSession())) return 0;
-    const snapshot = await db.collection('notifications')
+    const snapshot = await projectCollection('notifications')
       .where('isRead', '==', false)
       .count()
       .get();
@@ -448,7 +448,7 @@ export async function markAllNotificationsRead() {
   try {
     if (!(await verifyAdminSession())) return { success: false, error: 'Unauthorized' };
 
-    const unread = await db.collection('notifications').where('isRead', '==', false).get();
+    const unread = await projectCollection('notifications').where('isRead', '==', false).get();
     if (unread.empty) return { success: true };
 
     const batch = db.batch();
@@ -469,7 +469,7 @@ export async function markAllNotificationsRead() {
  */
 export async function getMenuItems() {
   try {
-    const snapshot = await db.collection('menu')
+    const snapshot = await projectCollection('menu')
       .orderBy('createdAt', 'desc')
       .get();
       
@@ -518,8 +518,8 @@ export async function deleteMenuItem(id: string) {
 export async function getDashboardStats() {
   try {
     const [enquiriesSnapshot, menu] = await Promise.all([
-      db.collection('enquiries').get(),
-      db.collection('menu').count().get(),
+      projectCollection('enquiries').get(),
+      projectCollection('menu').count().get(),
     ]);
 
     let newBookings = 0;
@@ -757,12 +757,19 @@ export async function uploadImage(formData: FormData) {
     const isVideo = file.type.startsWith('video/');
     const buffer = Buffer.from(await file.arrayBuffer());
 
+    const uploadOptions: any = {
+      folder: process.env.CLOUDINARY_FOLDER || 'augustcatering',
+      resource_type: isVideo ? 'video' : 'image',
+    };
+
+    if (!isVideo) {
+      uploadOptions.format = 'avif';
+      uploadOptions.transformation = [{ quality: 'auto' }];
+    }
+
     const result = await new Promise<any>((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
-        {
-          folder: 'augustcatering',
-          resource_type: isVideo ? 'video' : 'image',
-        },
+        uploadOptions,
         (error, result) => {
           if (error) reject(error);
           else resolve(result);

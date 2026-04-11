@@ -127,17 +127,17 @@ export function SocialSidebar() {
   return (
     <>
       {/* Cinematic Mobile HUD */}
-      <div className="fixed right-6 bottom-6 z-[200] md:hidden">
+      <div className="fixed right-4 bottom-4 z-[200] md:hidden">
         <AnimatePresence>
           {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="mb-6 flex flex-col gap-4 items-end"
-            >
-              {links.map((link, index) => (
-                <motion.a
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="mb-4 flex flex-col gap-3 items-end"
+              >
+                {links.map((link, index) => (
+                  <motion.a
                   key={link.name}
                   href={link.href}
                   target={link.external === false ? undefined : '_blank'}
@@ -146,15 +146,15 @@ export function SocialSidebar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-4 py-3 px-5 rounded-2xl bg-black/40 backdrop-blur-3xl border border-white/10 text-white/40 active:bg-primary/10 active:text-primary transition-all shadow-2xl"
-                >
-                  <span className="text-[10px] font-black uppercase tracking-[0.3em]">{link.label}</span>
-                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                    <link.icon className="w-4 h-4" />
-                  </div>
-                </motion.a>
-              ))}
-            </motion.div>
+                    className="flex min-w-[164px] items-center justify-between gap-3 py-2.5 px-3.5 rounded-xl bg-black/70 backdrop-blur-3xl border border-white/10 text-white/70 active:bg-primary/10 active:text-primary transition-all shadow-2xl"
+                  >
+                    <span className="text-[10px] font-bold uppercase tracking-[0.14em]">{link.name}</span>
+                    <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
+                      <link.icon className="w-4 h-4" />
+                    </div>
+                  </motion.a>
+                ))}
+              </motion.div>
           )}
         </AnimatePresence>
 
@@ -162,9 +162,9 @@ export function SocialSidebar() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(!isOpen)}
-          className="w-16 h-16 rounded-[2rem] bg-primary text-black flex items-center justify-center shadow-[0_0_50px_rgba(255,183,0,0.2)] border border-primary/20 relative z-10"
+          className="w-14 h-14 rounded-2xl bg-primary text-black flex items-center justify-center shadow-[0_0_35px_rgba(255,183,0,0.2)] border border-primary/20 relative z-10"
         >
-          {isOpen ? <X size={24} /> : <Terminal size={24} />}
+          {isOpen ? <X size={22} /> : <Terminal size={22} />}
         </motion.button>
       </div>
 
@@ -206,4 +206,3 @@ export function SocialSidebar() {
     </>
   );
 }
-

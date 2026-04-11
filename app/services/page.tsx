@@ -1,4 +1,4 @@
-import { db } from '@/lib/firebase';
+import { db, projectCollection } from '@/lib/firebase';
 import { ServicesPageClient } from '@/components/ServicesPageClient';
 
 export const dynamic = 'force-dynamic';
@@ -37,7 +37,7 @@ export default async function ServicesPage() {
   let cateringServices = [];
 
   try {
-    const snapshot = await db.collection('services').orderBy('createdAt', 'asc').get();
+    const snapshot = await projectCollection('services').orderBy('createdAt', 'asc').get();
     cateringServices = snapshot.docs
       .map((doc, index) => {
         const data = doc.data() as any;

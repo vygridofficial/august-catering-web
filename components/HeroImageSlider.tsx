@@ -8,17 +8,13 @@ import Image from 'next/image';
 
 const FALLBACK_IMAGE = '/bg1.jpg';
 
-import { Skeleton } from './ui/Skeleton';
-
 export function HeroImageSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [images, setImages] = useState<string[]>([FALLBACK_IMAGE]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        setLoading(true);
         const data = await getHeroImages();
         if (data && data.length > 0) {
           const active = data.filter((img: any) => img.isActive).map((img: any) => img.url);
@@ -29,22 +25,18 @@ export function HeroImageSlider() {
       } catch (err) {
         console.error("Hero image fetch fail:", err);
         setImages([FALLBACK_IMAGE]);
-      } finally {
-        setLoading(false);
       }
     };
     fetchImages();
   }, []);
 
   useEffect(() => {
-    if (loading || images.length <= 1) return;
+    if (images.length <= 1) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, [images.length, loading]);
-
-  if (loading) return <Skeleton className="absolute inset-0 z-0" />;
+  }, [images.length]);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-background">

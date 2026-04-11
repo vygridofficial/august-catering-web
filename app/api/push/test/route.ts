@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import webpush from 'web-push';
-import { db } from '@/lib/firebase';
+import { db, projectCollection } from '@/lib/firebase';
 import { verifyAdminSession } from '@/lib/session';
 
 let configured = false;
@@ -34,7 +34,7 @@ export async function POST() {
       );
     }
 
-    const subscriptions = await db.collection('pushSubscriptions').get();
+    const subscriptions = await projectCollection('pushSubscriptions').get();
     if (subscriptions.empty) {
       return NextResponse.json(
         { error: 'No subscribed admin devices found.' },

@@ -1,10 +1,10 @@
 'use server';
 
-import { db } from '@/lib/firebase';
+import { db, projectCollection } from '@/lib/firebase';
 
 export async function getServices() {
   try {
-    const snapshot = await db.collection('services').get();
+    const snapshot = await projectCollection('services').get();
     return snapshot.docs.map(doc => {
       const data = doc.data();
       return {
@@ -26,7 +26,7 @@ export async function addService(data: {
   isActive: boolean 
 }) {
   try {
-    const doc = await db.collection('services').add({
+    const doc = await projectCollection('services').add({
       ...data,
       createdAt: new Date().toISOString()
     });
@@ -39,7 +39,7 @@ export async function addService(data: {
 
 export async function updateServiceStatus(id: string, isActive: boolean) {
   try {
-    await db.collection('services').doc(id).update({ isActive });
+    await projectCollection('services').doc(id).update({ isActive });
     return { success: true };
   } catch (err) {
     console.error('Error updating service status:', err);
@@ -49,7 +49,7 @@ export async function updateServiceStatus(id: string, isActive: boolean) {
 
 export async function deleteService(id: string) {
   try {
-    await db.collection('services').doc(id).delete();
+    await projectCollection('services').doc(id).delete();
     return { success: true };
   } catch (err) {
     console.error('Error deleting service:', err);
