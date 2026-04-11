@@ -1,17 +1,36 @@
 import * as admin from 'firebase-admin';
 
 if (!admin.apps.length) {
+  const projectId = process.env.FIREBASE_PROJECT_ID;
+  const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+  const privateKey = process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n');
+  const storageBucket = process.env.FIREBASE_STORAGE_BUCKET || (projectId ? `${projectId}.appspot.com` : undefined);
+
+  const hasServiceAccount = Boolean(projectId && clientEmail && privateKey);
+
   try {
-    admin.initializeApp({
-      credential: admin.credential.cert({
-        projectId: process.env.FIREBASE_PROJECT_ID,
-        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-        privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-      }),
-      storageBucket: process.env.FIREBASE_STORAGE_BUCKET || `${process.env.FIREBASE_PROJECT_ID}.appspot.com`,
-    });
+    if (hasServiceAccount) {
+      admin.initializeApp({
+        credential: admin.credential.cert({
+          projectId,
+          clientEmail,
+          privateKey,
+        }),
+        storageBucket,
+      });
+    } else {
+      // Build/runtime fallback so module imports don't fail when explicit creds are absent.
+      admin.initializeApp();
+    }
   } catch (error) {
     console.error('Firebase admin initialization error', error);
+    if (!admin.apps.length) {
+      try {
+        admin.initializeApp();
+      } catch (fallbackError) {
+        console.error('Firebase fallback initialization error', fallbackError);
+      }
+    }
   }
 }
 
