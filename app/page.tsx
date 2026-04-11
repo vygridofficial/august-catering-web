@@ -1,31 +1,30 @@
-import { Header } from '@/components/Header';
-import { AboutSection } from '@/components/AboutSection';
+import { MagneticHero } from '@/components/3d/MagneticHero';
+import { FloatingDock } from '@/components/layout/FloatingDock';
+import { LiquidAbout } from '@/components/sections/LiquidAbout';
 import { ServicesShowcase } from '@/components/ServicesShowcase';
+import { GallerySection } from '@/components/GallerySection';
 import { TestimonialsMarquee } from '@/components/TestimonialsMarquee';
 import { Footer } from '@/components/Footer';
-import { MouseGlow } from '@/components/MouseGlow';
-import { HeroContent } from '@/components/HeroContent';
-import { GallerySection } from '@/components/GallerySection';
-import { AuroraBackground } from '@/components/AuroraBackground';
 
 export default function Home() {
   return (
     <>
-      <Header />
+      {/* 3D Hero Orchestrator */}
+      <MagneticHero />
       
-      {/* Hero Section */}
-      <AuroraBackground className="min-h-[100svh] md:min-h-screen">
-        <MouseGlow />
-        <HeroContent />
-      </AuroraBackground>
-      
+      {/* ScrollTrigger GSAP Sections */}
       <div className="relative z-10 bg-background text-foreground">
-        <AboutSection />
+        <LiquidAbout />
+        
+        {/* We keep the old core ones but they are now integrated below the GSAP parallax flow */}
         <ServicesShowcase />
         <GallerySection />
         <TestimonialsMarquee />
         <Footer />
       </div>
+
+      {/* Global Navigation Override */}
+      <FloatingDock />
     </>
   );
 }
