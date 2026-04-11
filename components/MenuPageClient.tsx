@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getMenuItems } from '@/lib/actions/database';
 import { Loader2, UtensilsCrossed, Sparkles, ChefHat, Info } from 'lucide-react';
@@ -188,8 +187,6 @@ export function MenuPageClient() {
         </div>
       </section>
 
-      <Footer />
     </main>
   );
 }
-

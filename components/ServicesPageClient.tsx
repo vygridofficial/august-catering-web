@@ -1,7 +1,6 @@
 'use client';
 
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { Sparkles, ChefHat, GlassWater, UtensilsCrossed, ArrowDown } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
@@ -119,7 +118,6 @@ export function ServicesPageClient({ services }: { services: Service[] }) {
         </div>
       </section>
 
-      <Footer />
     </main>
   );
 }

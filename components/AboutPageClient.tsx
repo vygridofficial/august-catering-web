@@ -7,7 +7,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Award, Users, Clock, ChefHat, Star, Heart, Target, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -185,7 +184,6 @@ export function AboutPageClient() {
         </div>
       </section>
 
-      <Footer />
     </main>
   );
 }

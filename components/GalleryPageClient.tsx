@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
 import { GallerySection } from '@/components/GallerySection';
 import { ChevronDown, Camera } from 'lucide-react';
 
@@ -60,8 +59,6 @@ export function GalleryPageClient() {
         </div>
       </section>
 
-      <Footer />
     </main>
   );
 }
-
