@@ -1,65 +1,18 @@
 'use client';
 
-import { Suspense, useRef, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, Float, PresentationControls, ContactShadows, MeshTransmissionMaterial } from '@react-three/drei';
+import { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Environment, Float, ContactShadows, MeshTransmissionMaterial } from '@react-three/drei';
 import { motion } from 'framer-motion';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import * as THREE from 'three';
+import Image from 'next/image';
 
-gsap.registerPlugin(ScrollTrigger);
-
-function FloatingObjects() {
-  const group = useRef<THREE.Group>(null);
-  
-  // Exploding objects animation bound to scroll
-  useEffect(() => {
-    if (!group.current) return;
-    
-    gsap.to(group.current.position, {
-      y: 5,
-      z: 5,
-      ease: 'power3.inOut',
-      scrollTrigger: {
-        trigger: '#hero-section',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1.5,
-      }
-    });
-
-    // Make children "explode" outwards on scroll
-    group.current.children.forEach((child, index) => {
-      const direction = new THREE.Vector3().copy(child.position).normalize();
-      gsap.to(child.position, {
-        x: child.position.x + direction.x * 5,
-        y: child.position.y + direction.y * 5,
-        z: child.position.z + direction.z * 5,
-        rotationX: Math.PI * 2,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: '#hero-section',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1,
-        }
-      });
-    });
-  }, []);
-
+function SubtleFloatingObjects() {
   return (
-    <group ref={group}>
-      <PresentationControls
-        global
-        rotation={[0.13, 0.1, 0]}
-        polar={[-0.4, 0.2]}
-        azimuth={[-1, 0.75]}
-      >
-        <Float rotationIntensity={2} floatIntensity={4} speed={2}>
+    <group>
+        <Float rotationIntensity={1} floatIntensity={2} speed={1}>
           {/* Abstract Centerpiece */}
           <mesh position={[0, 0, 0]} castShadow>
-            <torusKnotGeometry args={[1.2, 0.4, 128, 32]} />
+            <torusKnotGeometry args={[1.5, 0.4, 128, 32]} />
             <MeshTransmissionMaterial 
               backside 
               samples={4} 
@@ -78,7 +31,7 @@ function FloatingObjects() {
             <sphereGeometry args={[0.5, 32, 32]} />
             <meshPhysicalMaterial color="#ffffff" metalness={0.9} roughness={0.1} envMapIntensity={2} />
           </mesh>
-          <mesh position={[-2.5, -2, 1.5]}>
+          <mesh position={[-3, -2, 1]}>
             <octahedronGeometry args={[0.8]} />
             <meshPhysicalMaterial color="#ff9900" metalness={1} roughness={0.2} wireframe />
           </mesh>
@@ -87,68 +40,68 @@ function FloatingObjects() {
             <MeshTransmissionMaterial thickness={1} roughness={0} transmission={1} ior={1.5} color="#fff" />
           </mesh>
         </Float>
-      </PresentationControls>
     </group>
   );
 }
 
 export function MagneticHero() {
-  const textRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    // Immersive textual scale and reveal
-    gsap.fromTo(textRef.current, 
-      { opacity: 0, scale: 0.8, filter: 'blur(20px)', y: 100 },
-      { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0, duration: 2, ease: 'expo.out' }
-    );
-
-    gsap.to(textRef.current, {
-      opacity: 0,
-      scale: 1.2,
-      y: -150,
-      filter: 'blur(10px)',
-      scrollTrigger: {
-        trigger: '#hero-section',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1,
-      }
-    });
-  }, []);
-
   return (
-    <section id="hero-section" className="relative w-full h-[120vh] bg-background overflow-hidden cursor-crosshair">
+    <section id="hero-section" className="relative w-full h-[100svh] bg-background overflow-hidden">
+      
+      {/* High Quality Hero Image Background */}
+      <div className="absolute inset-0 z-0">
+        <Image 
+          src="/1.webp" 
+          alt="Premium Catering Event" 
+          fill 
+          className="object-cover opacity-40 mix-blend-luminosity"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background" />
+      </div>
+
+      {/* Subtle WebGL Layer - Blends into background */}
+      <div className="absolute inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none">
+        <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 10], fov: 45 }}>
+          <ambientLight intensity={0.5} />
+          <spotLight position={[10, 10, 10]} angle={0.2} penumbra={1} intensity={2} castShadow />
+          <Suspense fallback={null}>
+            <SubtleFloatingObjects />
+            <Environment preset="city" />
+            <ContactShadows position={[0, -4, 0]} opacity={0.3} scale={20} blur={2} far={5} />
+          </Suspense>
+        </Canvas>
+      </div>
+
+      {/* Hero Typography - Fixed visibility using Framer Motion */}
       <div className="absolute inset-0 z-10 pointer-events-none flex items-center justify-center">
-        <h1 
-          ref={textRef}
-          className="text-[clamp(3rem,8vw,10rem)] leading-none font-heading font-black tracking-tighter text-foreground text-center mix-blend-difference z-20 px-4"
+        <motion.h1 
+          initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 1.5, ease: 'easeOut', delay: 0.2 }}
+          className="text-[clamp(3.5rem,10vw,12rem)] leading-none font-heading font-black tracking-tighter text-foreground text-center z-20 px-4 drop-shadow-2xl"
         >
           AUGUST
           <br />
-          <span className="text-primary italic font-serif opacity-90 text-[clamp(2rem,5vw,7rem)]">CATERING</span>
-        </h1>
-      </div>
-      
-      <div className="absolute inset-0 z-0">
-        <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 8], fov: 45 }}>
-          <ambientLight intensity={0.5} />
-          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-          <Suspense fallback={null}>
-            <FloatingObjects />
-            <Environment preset="city" />
-            <ContactShadows position={[0, -3, 0]} opacity={0.5} scale={20} blur={2} far={4.5} />
-          </Suspense>
-        </Canvas>
+          <motion.span 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 0.9, x: 0 }}
+            transition={{ duration: 1.5, ease: 'easeOut', delay: 0.6 }}
+            className="text-primary italic font-serif opacity-90 text-[clamp(2.5rem,6vw,8rem)] drop-shadow-lg"
+          >
+            CATERING
+          </motion.span>
+        </motion.h1>
       </div>
       
       {/* Scroll indicator */}
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-20 left-1/2 -translate-x-1/2 text-primary text-sm font-sans tracking-[0.3em] uppercase z-20 flex flex-col items-center gap-4"
+        transition={{ delay: 1.5, duration: 1 }}
+        className="absolute bottom-24 left-1/2 -translate-x-1/2 text-primary text-sm font-sans tracking-[0.3em] uppercase z-20 flex flex-col items-center gap-4"
       >
-        <span>Discover</span>
+        <span className="drop-shadow-lg">Discover</span>
         <div className="w-[1px] h-12 bg-primary/30 relative overflow-hidden">
           <motion.div 
             animate={{ y: [0, 48] }} 
