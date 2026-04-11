@@ -21,9 +21,9 @@ export function AboutSection() {
   const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [-50, 50]);
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-  const years = useTransform(scrollYProgress, [0.1, 0.4], [1, 21]);
-  const clients = useTransform(scrollYProgress, [0.1, 0.5], [250, 5000]);
-  const rating = useTransform(scrollYProgress, [0.1, 0.4], [3.5, 4.7]);
+  const years = useTransform(scrollYProgress, [0.1, 0.4], [1, 15]);
+  const clients = useTransform(scrollYProgress, [0.1, 0.5], [250, 3000]);
+  const rating = useTransform(scrollYProgress, [0.1, 0.4], [3.5, 4.9]);
   const yearsText = useTransform(years, (latest) => `${Math.round(Number(latest))}+`);
   const clientsText = useTransform(clients, (latest) => `${Math.round(Number(latest))}+`);
   const ratingText = useTransform(rating, (latest) => `${Number(latest).toFixed(1)}★`);
@@ -40,16 +40,16 @@ export function AboutSection() {
     <section
       ref={containerRef}
       id="about"
-      className="relative py-15 bg-foreground text-background overflow-hidden"
+      className="relative py-15 bg-background text-foreground overflow-hidden"
       style={{ position: 'relative' }}
     >
       {/* Decorative background typography */}
       <motion.div
         style={{ y: y2 }}
-        className="absolute top-10 left-0 right-0 text-center opacity-5 pointer-events-none select-none"
+        className="absolute top-10 left-0 right-0 text-center opacity-[0.03] pointer-events-none select-none"
       >
         <h2 className="text-[8vw] leading-none font-heading font-bold uppercase whitespace-nowrap">
-          21 YEARS OF EXCELLENCE
+          A SYMPHONY OF TASTE
         </h2>
       </motion.div>
 
@@ -60,15 +60,15 @@ export function AboutSection() {
             className="space-y-8"
           >
             <p className="text-primary text-xs font-black uppercase tracking-[0.3em]">Our Story</p>
-            <h2 className="text-5xl md:text-7xl font-heading font-bold text-background">
+            <h2 className="text-5xl md:text-7xl font-heading font-bold text-foreground">
               The Art of <span className="text-primary italic">Gastronomy.</span>
             </h2>
-            <p className="text-xl text-background/80 font-light leading-relaxed">
-              Based in Thiruvaniyoor, Ernakulam, Gateway Kitchen Catering Service has been a
-              pillar of culinary excellence for over two decades.
+            <p className="text-xl text-foreground/80 font-light leading-relaxed">
+              Based in Ernakulam, August Catering has been a
+              pillar of premium culinary excellence, delivering unforgettable dining experiences.
             </p>
-            <p className="text-lg text-background/60 font-light leading-relaxed">
-              Our skilled and experienced chefs are proficient in a diverse variety of cuisines, ensuring a high-quality dining experience. Rated 4.7 stars by our satisfied clients, we believe that the food should not just satisfy the palate, but elevate the entire occasion.
+            <p className="text-lg text-foreground/60 font-light leading-relaxed">
+              Our skilled and experienced chefs are proficient in a diverse variety of cuisines, ensuring a high-quality dining experience. Rated 4.9 stars by our satisfied clients, we believe that the food should not just satisfy the palate, but elevate the entire occasion.
             </p>
 
             <div className="pt-4 flex flex-wrap gap-4">
@@ -78,7 +78,7 @@ export function AboutSection() {
                 </button>
               </Link>
               <Link href="/contact">
-                <button className="group inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 overflow-hidden rounded-full bg-primary/10 text-background/70 transition-all duration-300 hover:bg-primary hover:text-primary-foreground text-sm sm:text-base">
+                <button className="group inline-flex items-center justify-center px-6 py-3 sm:px-8 sm:py-4 overflow-hidden rounded-full bg-primary/10 text-foreground/70 transition-all duration-300 hover:bg-primary hover:text-primary-foreground text-sm sm:text-base">
                   <span className="font-medium tracking-wider">Contact Us</span>
                 </button>
               </Link>
@@ -91,7 +91,7 @@ export function AboutSection() {
             whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 1.5, ease: 'circOut' }}
-            className="relative w-[80%] h-[80%] m-auto aspect-[4/5] rounded-[2rem] overflow-hidden bg-gradient-to-tr from-primary/20 to-transparent border border-white/10"
+            className="relative w-[80%] h-[80%] m-auto aspect-[4/5] rounded-[2rem] overflow-hidden bg-gradient-to-tr from-primary/20 to-transparent border border-white/10 shadow-2xl shadow-primary/20"
           >
             <div className="absolute inset-0 z-0 pointer-events-none">
               <AnimatePresence mode="wait">
@@ -105,29 +105,29 @@ export function AboutSection() {
                 >
                   <Image
                     src={ABOUT_BACKDROP_IMAGES[activeBackdrop]}
-                    alt="Gateway Kitchen ambience"
+                    alt="August Catering ambience"
                     fill
-                    className="object-cover opacity-75"
+                    className="object-cover opacity-60"
                   />
                 </motion.div>
               </AnimatePresence>
-              <div className="absolute inset-0 bg-gradient-to-b from-foreground/30 via-foreground/20 to-foreground/42" />
+              <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/20 to-background/60" />
             </div>
 
-            <div className="absolute inset-0 bg-background/0 backdrop-blur-[1px] flex flex-col items-center justify-center gap-4 sm:gap-6 p-4 sm:p-8">
-              <div className="w-64 h-64 bg-primary/30 rounded-full blur-[100px] absolute" />
+            <div className="absolute inset-0 bg-background/10 backdrop-blur-[2px] flex flex-col items-center justify-center gap-4 sm:gap-6 p-4 sm:p-8">
+              <div className="w-64 h-64 bg-primary/20 rounded-full blur-[100px] absolute" />
               <div className="relative z-10 text-center space-y-3 sm:space-y-4">
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
-                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-background">{yearsText}</motion.p>
-                  <p className="text-background/50 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Years of Excellence</p>
+                <div className="bg-background/40 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
+                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-foreground">{yearsText}</motion.p>
+                  <p className="text-foreground/60 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Years of Excellence</p>
                 </div>
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
-                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-background">{clientsText}</motion.p>
-                  <p className="text-background/50 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Happy Clients</p>
+                <div className="bg-background/40 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
+                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-foreground">{clientsText}</motion.p>
+                  <p className="text-foreground/60 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Happy Clients</p>
                 </div>
-                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
-                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-background">{ratingText}</motion.p>
-                  <p className="text-background/50 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Average Rating</p>
+                <div className="bg-background/40 backdrop-blur-md border border-white/10 rounded-2xl px-5 py-3 sm:px-8 sm:py-4">
+                  <motion.p className="text-xl sm:text-3xl font-heading font-extrabold text-foreground">{ratingText}</motion.p>
+                  <p className="text-foreground/60 text-[10px] sm:text-sm uppercase tracking-widest mt-1">Average Rating</p>
                 </div>
               </div>
             </div>

@@ -68,8 +68,8 @@ export function Header() {
         <Link href="/" className="flex items-center gap-3 group">
           <div className="relative w-16 h-16 md:w-26 md:h-26 group-hover:scale-105 transition-transform">
             <Image
-              src="/logo-1.png"
-              alt="Gateway Kitchen Logo"
+              src="/logo.jpeg"
+              alt="August Catering Logo"
               fill
               className="object-contain"
               priority
@@ -130,10 +130,10 @@ export function Header() {
               <Link href="/" className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
                 <div className="relative w-24 h-24">
                   <Image
-                    src="/logo-1.png"
-                    alt="Gateway Kitchen Logo"
+                    src="/logo.jpeg"
+                    alt="August Catering Logo"
                     fill
-                    className="object-contain"
+                    className="object-contain border border-amber-500/20 rounded-full"
                   />
                 </div>
               </Link>
@@ -172,7 +172,7 @@ export function Header() {
             </nav>
 
             <div className="mt-auto border-t border-border pt-8 flex flex-col gap-4 text-foreground/40 text-sm">
-              <p>© 2026 Gateway Kitchen Caterers</p>
+              <p>© 2026 August Catering</p>
               <p>Authentic Flavors, Memorable Events</p>
             </div>
           </motion.div>
