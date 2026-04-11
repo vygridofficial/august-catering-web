@@ -57,7 +57,7 @@ export default function LoginPage() {
                 <div className="relative w-20 h-20 sm:w-24 sm:h-24">
                   <Image
                     src="/logo-1.png"
-                    alt="Gateway Kitchen Logo"
+                    alt="August Catering Logo"
                     fill
                     className="object-contain"
                     priority
@@ -68,7 +68,7 @@ export default function LoginPage() {
                     Admin
                   </h1>
                   <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-foreground/40">
-                    Gateway Kitchen Control
+                    August Catering Control
                   </p>
                 </div>
               </div>

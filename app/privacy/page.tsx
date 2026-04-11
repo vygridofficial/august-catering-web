@@ -5,7 +5,7 @@ import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'Gateway Kitchen privacy policy placeholder page.',
+  description: 'August Catering privacy policy placeholder page.',
 };
 
 export default function PrivacyPolicyPage() {
@@ -20,7 +20,7 @@ export default function PrivacyPolicyPage() {
           </div>
           <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
             <p>
-              This is a placeholder privacy policy page for Gateway Kitchen. It explains how basic contact details, booking requests,
+              This is a placeholder privacy policy page for August Catering. It explains how basic contact details, booking requests,
               and enquiry submissions may be used to respond to your request.
             </p>
             <p>

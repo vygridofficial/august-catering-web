@@ -161,7 +161,7 @@ export default function SocialSettingsPage() {
               type="email"
               value={settings.email}
               onChange={(e) => setSettings({ ...settings, email: e.target.value })}
-              placeholder="info@gatewaykitchen.in"
+              placeholder="info@augustcatering.in"
               className="w-full bg-background/60 border border-border/50 rounded-2xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all font-medium"
             />
           </div>

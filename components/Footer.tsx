@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getSocialSettings } from "@/lib/actions/database";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 export function Footer() {
   const [settings, setSettings] = useState<any>(null);
@@ -17,94 +18,68 @@ export function Footer() {
   }, []);
 
   const phone = settings?.phone || "+91 94951 84661";
-  const email = settings?.email || "info@gatewaykitchen.in";
+  const email = settings?.email || "info@augustcatering.com";
   const phoneHref = `tel:${String(phone).replace(/[^+\d]/g, "")}`;
   const emailHref = `mailto:${email}`;
 
   return (
-    <footer className="bg-foreground text-background py-20 relative overflow-hidden">
+    <footer className="bg-[#080808] text-foreground py-24 relative overflow-hidden border-t border-white/5">
+      {/* Cinematic Grain Overlay */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay">
+        <svg className="w-full h-full">
+          <filter id="noiseFooter"><feTurbulence type="fractalNoise" baseFrequency="0.6" numOctaves="3" stitchTiles="stitch"/></filter>
+          <rect width="100%" height="100%" filter="url(#noiseFooter)"/>
+        </svg>
+      </div>
+
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div className="col-span-1 lg:col-span-2">
-            <div className="relative w-52 h-24 mb-6">
-              <Image
-                src="/logo-1.png"
-                alt="Gateway Kitchen"
-                fill
-                className="object-contain object-left"
-                priority
-              />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-24">
+          <div className="col-span-1 lg:col-span-2 space-y-8">
+            <Link href="/" className="inline-block">
+              <div className="relative w-20 h-20 rounded-full overflow-hidden border border-white/10 group">
+                <Image
+                  src="/logo.jpeg"
+                  alt="August Catering Logo"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  priority
+                />
+              </div>
+            </Link>
+            <div className="space-y-4">
+               <h3 className="text-3xl font-heading font-black tracking-tighter text-white">AUGUST <span className="text-primary italic">CATERING</span></h3>
+               <p className="text-foreground/40 max-w-sm text-lg font-light leading-relaxed font-outfit">
+                 Crafting unforgettable culinary memories since 2003. We engineer premium gastronomy experiences for the most discerning palates.
+               </p>
             </div>
-            <p className="text-background/60 max-w-sm text-lg font-light leading-relaxed">
-              Elevating every occasion serving premium gastronomy for over 21
-              years across Ernakulam.
-            </p>
           </div>
 
-          <div>
-            <h4 className="text-lg font-semibold mb-6 text-primary">
+          <div className="space-y-8">
+            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-primary/60">
               Quick Links
             </h4>
-            <ul className="space-y-4 text-background/80">
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-white transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services"
-                  className="hover:text-white transition-colors"
-                >
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/menu"
-                  className="hover:text-white transition-colors"
-                >
-                  Menu
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/book"
-                  className="hover:text-white transition-colors"
-                >
-                  Book Event
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="hover:text-white transition-colors"
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/gallery"
-                  className="hover:text-white transition-colors"
-                >
-                  Gallery
-                </Link>
-              </li>
+            <ul className="space-y-3 text-lg font-light font-outfit">
+              {['Home', 'About', 'Services', 'Menu', 'Gallery', 'Contact'].map((label) => (
+                <li key={label}>
+                  <Link
+                    href={label === 'Home' ? '/' : `/${label.toLowerCase()}`}
+                    className="text-foreground/40 hover:text-primary transition-all duration-300 hover:pl-2"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          <div>
-            <h4 className="text-lg font-semibold mb-6 text-primary">Contact</h4>
-            <ul className="space-y-4 text-background/80">
-              <li>Thiruvaniyoor, Ernakulam</li>
+          <div className="space-y-8">
+            <h4 className="text-xs font-black uppercase tracking-[0.3em] text-primary/60">Contact</h4>
+            <ul className="space-y-4 text-lg font-light font-outfit">
+              <li className="text-foreground/60 leading-tight">Thiruvaniyoor,<br/> Ernakulam, Kerala</li>
               <li>
                 <a
                   href={phoneHref}
-                  className="hover:text-white transition-colors"
+                  className="text-foreground/40 hover:text-primary transition-all duration-300"
                 >
                   {phone}
                 </a>
@@ -112,7 +87,7 @@ export function Footer() {
               <li>
                 <a
                   href={emailHref}
-                  className="hover:text-white transition-colors"
+                  className="text-foreground/40 hover:text-primary transition-all duration-300"
                 >
                   {email}
                 </a>
@@ -121,38 +96,21 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-background/50 font-light text-sm">
-            © {new Date().getFullYear()} Gateway Kitchen Caterers. All rights
-            reserved.
-          </p>
-          <p className="text-background/50 font-light text-sm">
-            Powered by Vygrid
-          </p>
-          <div className="flex gap-6 text-sm font-light">
-            <Link
-              href="/privacy"
-              className="text-background/50 hover:text-white transition-colors"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-background/50 hover:text-white transition-colors"
-            >
-              Terms of Service
-            </Link>
+        <div className="mt-32 pt-10 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col gap-2">
+             <p className="text-foreground/20 font-bold text-[10px] uppercase tracking-widest">
+               © {new Date().getFullYear()} AUGUST CATERING SERVICES.
+             </p>
+             <p className="text-foreground/10 text-[9px] uppercase tracking-widest">
+               SCULPTED BY VYGRID
+             </p>
+          </div>
+          
+          <div className="flex gap-8 text-[11px] font-black uppercase tracking-widest text-foreground/20">
+            <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
           </div>
         </div>
-      </div>
-
-      <div className="absolute -bottom-6 left-6 w-48 h-48 md:w-64 md:h-64 opacity-[0.08] pointer-events-none select-none">
-        <Image
-          src="/logo-1.png"
-          alt="Gateway Kitchen mark"
-          fill
-          className="object-contain"
-        />
       </div>
     </footer>
   );

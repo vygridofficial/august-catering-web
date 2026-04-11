@@ -3,9 +3,9 @@ import type { MetadataRoute } from 'next';
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: '/admin',
-    name: 'Gateway Kitchen Admin',
+    name: 'August Catering Admin',
     short_name: 'GK Admin',
-    description: 'Installable admin panel for Gateway Kitchen',
+    description: 'Installable admin panel for August Catering',
     start_url: '/admin',
     scope: '/admin',
     display: 'standalone',

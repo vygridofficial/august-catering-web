@@ -80,7 +80,7 @@ function buildAlertMessage({ type, sourceId, data }: SendExternalAlertInput) {
   const message = String(data?.message || '').trim();
 
   const lines = [
-    `Gateway Kitchen: ${label}`,
+    `August Catering: ${label}`,
     `ID: ${sourceId}`,
     `Name: ${name}`,
     `Phone: ${phone}`,
@@ -196,7 +196,7 @@ async function sendWebPushAlert(payload: Record<string, any>) {
 async function sendExternalAdminAlert(input: SendExternalAlertInput) {
   const message = buildAlertMessage(input);
   const payload = {
-    app: 'gatewaykitchen-web',
+    app: 'augustcatering-web',
     type: input.type,
     sourceId: input.sourceId,
     message,
@@ -746,7 +746,7 @@ export async function uploadImage(formData: FormData) {
     const result = await new Promise<any>((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
-          folder: 'gatewaykitchen',
+          folder: 'augustcatering',
           resource_type: isVideo ? 'video' : 'image',
         },
         (error, result) => {
@@ -968,9 +968,9 @@ export async function getSocialSettings() {
       return {
         whatsapp: '919495184661',
         phone: '+919495184661',
-        instagram: 'https://www.instagram.com/gatewaykitchen/',
-        facebook: 'https://www.facebook.com/gatewaykitchen/',
-        email: 'info@gatewaykitchen.in',
+        instagram: 'https://www.instagram.com/augustcatering/',
+        facebook: 'https://www.facebook.com/augustcatering/',
+        email: 'info@augustcatering.in',
         location: 'https://www.google.com/maps/search/?api=1&query=Gateway+Kitchen+Caterers+Thiruvaniyoor'
       };
     }

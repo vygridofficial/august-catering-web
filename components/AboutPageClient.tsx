@@ -15,7 +15,7 @@ const STATS = [
 ];
 
 const MILESTONES = [
-  { year: '2003', title: 'Founded', desc: 'Gateway Kitchen was founded in Thiruvaniyoor, Ernakulam with a vision to elevate Kerala catering.' },
+  { year: '2003', title: 'Founded', desc: 'August Catering was founded in Thiruvaniyoor, Ernakulam with a vision to elevate Kerala catering.' },
   { year: '2008', title: 'First Grand Wedding', desc: 'We catered our first 500-guest wedding, setting a new standard for premium Kerala catering.' },
   { year: '2012', title: 'Corporate Expansion', desc: 'Launched our corporate catering division, serving Tech Mahindra, InfoSys, and leading firms in Kochi.' },
   { year: '2018', title: 'Multi-Cuisine Launch', desc: 'Expanded our menu to include Continental, Chinese and Fusion cuisines alongside our authentic Kerala dishes.' },
@@ -24,24 +24,24 @@ const MILESTONES = [
 
 const FAQS = [
   {
-    question: 'What kind of food does Gateway Kitchen Catering Service serve?',
-    answer: 'Gateway Kitchen Catering Service in Thiruvaniyoor is dedicated to making food that suits your palate. So, please inform them about your guests\' preferences, religious dietary restrictions, and allergies if any in advance.',
+    question: 'What kind of food does August Catering Catering Service serve?',
+    answer: 'August Catering Catering Service in Thiruvaniyoor is dedicated to making food that suits your palate. So, please inform them about your guests\' preferences, religious dietary restrictions, and allergies if any in advance.',
   },
   {
-    question: 'For what kind of occasions can I hire Gateway Kitchen Catering Service?',
-    answer: 'You can hire Gateway Kitchen Catering Service in Ernakulam for various occasions such as birthdays, anniversaries, ceremonies, religious occasions & festivities, month\'s mind, etc.',
+    question: 'For what kind of occasions can I hire August Catering Catering Service?',
+    answer: 'You can hire August Catering Catering Service in Ernakulam for various occasions such as birthdays, anniversaries, ceremonies, religious occasions & festivities, month\'s mind, etc.',
   },
   {
-    question: 'Will Gateway Kitchen Catering Service be able to fully customise my menu?',
-    answer: 'Please speak with Gateway Kitchen Catering Service to fully understand their offerings and menu. They will try their best to match your taste and preference. But, you must have a discussion with them seeking clarity regarding this.',
+    question: 'Will August Catering Catering Service be able to fully customise my menu?',
+    answer: 'Please speak with August Catering Catering Service to fully understand their offerings and menu. They will try their best to match your taste and preference. But, you must have a discussion with them seeking clarity regarding this.',
   },
   {
     question: 'Do I need to book the caterers in advance?',
     answer: 'As is the case with most caterers, bookings work on a first-come, first-serve basis. So, to avoid any disappointment, contact them as soon as you have confirmed your date, venue, guest count, etc.',
   },
   {
-    question: 'What are the operational hours of Gateway Kitchen Catering Service?',
-    answer: 'Gateway Kitchen Catering Service is open during Monday:- 6:00 am - 11:00 pm, Tuesday:- 6:00 am - 11:00 pm, Wednesday:- 6:00 am - 11:00 pm, Thursday:- 6:00 am - 11:00 pm, Friday:- 6:00 am - 11:00 pm, Saturday:- 6:00 am - 11:00 pm, Sunday:- 6:00 am - 11:00 pm.',
+    question: 'What are the operational hours of August Catering Catering Service?',
+    answer: 'August Catering Catering Service is open during Monday:- 6:00 am - 11:00 pm, Tuesday:- 6:00 am - 11:00 pm, Wednesday:- 6:00 am - 11:00 pm, Thursday:- 6:00 am - 11:00 pm, Friday:- 6:00 am - 11:00 pm, Saturday:- 6:00 am - 11:00 pm, Sunday:- 6:00 am - 11:00 pm.',
   },
   {
     question: 'What is the maximum number of guests they can cater to?',
@@ -89,7 +89,7 @@ export function AboutPageClient() {
               The Art of <span className="text-primary italic">Gastronomy.</span>
             </motion.h1>
             <motion.p variants={item} className="mt-8 text-xl text-background/70 font-light leading-relaxed max-w-2xl">
-              For over two decades, Gateway Kitchen has been transforming gatherings into unforgettable culinary experiences. Based in Thiruvaniyoor, Ernakulam, we are the trusted name in premium catering across Kerala.
+              For over two decades, August Catering has been transforming gatherings into unforgettable culinary experiences. Based in Thiruvaniyoor, Ernakulam, we are the trusted name in premium catering across Kerala.
             </motion.p>
             <motion.div variants={item} className="mt-10 flex flex-wrap gap-4">
               <Link href="/contact">
@@ -143,7 +143,7 @@ export function AboutPageClient() {
                 Food That <span className="text-primary italic">Tells a Story.</span>
               </h2>
               <p className="mt-6 text-lg text-muted-foreground font-light leading-relaxed">
-                At Gateway Kitchen, we believe every meal is a narrative. Our skilled chefs blend traditional Kerala techniques with global influences to create dishes that don&apos;t just satisfy the palate — they elevate the entire occasion.
+                At August Catering, we believe every meal is a narrative. Our skilled chefs blend traditional Kerala techniques with global influences to create dishes that don&apos;t just satisfy the palate — they elevate the entire occasion.
               </p>
               <p className="mt-4 text-lg text-muted-foreground font-light leading-relaxed">
                 Whether it&apos;s an intimate family gathering of 20 or a grand corporate gala for 2000, our commitment to quality, freshness, and presentation never wavers.
@@ -191,7 +191,7 @@ export function AboutPageClient() {
               Milestones That <span className="text-primary italic">Matter.</span>
             </h2>
             <p className="mt-6 text-lg text-muted-foreground font-light max-w-3xl mx-auto leading-relaxed">
-              This timeline highlights the key moments that shaped Gateway Kitchen into a trusted name for weddings, corporate events, and large-scale celebrations.
+              This timeline highlights the key moments that shaped August Catering into a trusted name for weddings, corporate events, and large-scale celebrations.
             </p>
           </motion.div>
 
@@ -271,7 +271,7 @@ export function AboutPageClient() {
             <Award className="mx-auto mb-6 text-primary" size={48} />
             <h2 className="text-4xl md:text-6xl font-heading font-bold">Ready to Create a <span className="text-primary italic">Memory?</span></h2>
             <p className="mt-6 text-xl text-background/60 font-light max-w-2xl mx-auto">
-              Let Gateway Kitchen transform your next event into an unforgettable experience. Reach out to our team today.
+              Let August Catering transform your next event into an unforgettable experience. Reach out to our team today.
             </p>
             <div className="mt-10 flex flex-wrap gap-4 justify-center">
               <Link href="/contact">

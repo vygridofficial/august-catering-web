@@ -43,7 +43,7 @@ export async function POST() {
     }
 
     const payload = JSON.stringify({
-      title: 'Gateway Kitchen Admin',
+      title: 'August Catering Admin',
       body: 'Test notification from admin panel.',
       target: '/admin/notifications',
       sourceId: 'test',

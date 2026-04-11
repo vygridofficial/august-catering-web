@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/admin/',
     },
-    sitemap: 'https://gatewaykitchen.in/sitemap.xml',
+    sitemap: 'https://augustcatering.in/sitemap.xml',
   };
 }

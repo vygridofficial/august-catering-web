@@ -77,7 +77,7 @@ export default function AdminDashboard() {
     <div className="space-y-12">
       <header>
         <h1 className="text-5xl font-heading font-bold tracking-tight mb-2">Dashboard</h1>
-        <p className="text-foreground/60 text-lg">Welcome back. Here's what's happening with Gateway Kitchen today.</p>
+        <p className="text-foreground/60 text-lg">Welcome back. Here's what's happening with August Catering today.</p>
       </header>
 
       {/* Stats Grid */}

@@ -64,7 +64,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="relative w-16 h-16">
           <img 
             src="/logo-1.png" 
-            alt="Gateway Kitchen Admin" 
+            alt="August Catering Admin" 
             className="object-contain filter drop-shadow-lg"
           />
         </div>
@@ -100,7 +100,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="relative w-28 h-28 -mt-4 -mb-2">
               <img 
                 src="/logo-1.png" 
-                alt="Gateway Kitchen" 
+                alt="August Catering" 
                 className="object-contain filter drop-shadow-xl"
               />
             </div>

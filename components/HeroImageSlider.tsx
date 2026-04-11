@@ -58,7 +58,7 @@ export function HeroImageSlider() {
           {images[currentIndex] && (
             <Image
               src={images[currentIndex]}
-              alt="Gateway Kitchen Premium Catering Setup"
+              alt="August Catering Premium Catering Setup"
               fill
               priority={currentIndex === 0}
               className="object-cover object-top md:object-center"

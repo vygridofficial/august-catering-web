@@ -82,7 +82,7 @@ export function CircularCarousel({ items }: CircularCarouselProps) {
             
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-12">
               <MagneticButton 
-                href={`https://wa.me/${settings?.whatsapp || '919495184661'}?text=${encodeURIComponent(`Hi Gateway Kitchen! I'm interested in discovering the menu for ${items[currentIndex].title}. Could you share more details?`)}`}
+                href={`https://wa.me/${settings?.whatsapp || '919495184661'}?text=${encodeURIComponent(`Hi August Catering! I'm interested in discovering the menu for ${items[currentIndex].title}. Could you share more details?`)}`}
                 className="px-8 py-4 bg-primary text-primary-foreground font-medium shadow-xl hover:shadow-primary/50 text-lg"
               >
                 Discover Menu

@@ -33,17 +33,17 @@ export function ServicesShowcase() {
       cardsRef.current.forEach((card, i) => {
         if (card) {
           gsap.fromTo(card, 
-            { y: 100, opacity: 0, rotateX: 20 },
+            { y: 100, opacity: 0, scale: 0.95 },
             {
               y: 0,
               opacity: 1,
-              rotateX: 0,
-              duration: 1.2,
+              scale: 1,
+              duration: 1.5,
               ease: "expo.out",
               scrollTrigger: {
                 trigger: card,
-                start: "top 85%",
-                end: "top 50%",
+                start: "top 90%",
+                end: "center 50%",
                 scrub: 1,
               }
             }
@@ -56,26 +56,50 @@ export function ServicesShowcase() {
   }, [services]);
 
   return (
-    <section ref={sectionRef} id="services" className="relative py-32 bg-background overflow-hidden">
+    <section ref={sectionRef} id="services" className="relative py-32 bg-[#050505] overflow-hidden border-t border-white/5">
+      {/* Cinematic Edge Lighting */}
+      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
+
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-3xl mb-24">
-          <h2 className="text-5xl md:text-7xl font-heading font-bold text-foreground">
-            Curated <span className="text-primary italic">Experiences.</span>
-          </h2>
-          <p className="mt-6 text-xl text-muted-foreground font-light">
-            Every occasion demands an atmosphere. We provide precisely curated menu that match the scale, theme, and elegance of your event.
-          </p>
+        <div className="max-w-4xl mb-24">
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-primary text-xs font-black uppercase tracking-[0.3em] mb-4"
+          >
+            Capabilities
+          </motion.p>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-5xl md:text-7xl font-heading font-black text-white tracking-tight"
+          >
+            Curated <span className="text-primary italic font-serif">Experiences.</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="mt-8 text-xl text-white/50 font-outfit font-light max-w-2xl leading-relaxed"
+          >
+            Every occasion demands a specific atmosphere. We provide precisely curated menus that match the scale, theme, and elegance of your signature event.
+          </motion.p>
         </div>
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
             {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-96 rounded-[3rem]" />
+              <Skeleton key={i} className="h-96 rounded-[2rem] bg-white/5" />
             ))}
           </div>
         ) : services.length === 0 ? (
-          <div className="py-20 text-center text-foreground/20 border border-dashed rounded-[3rem]">
-            No services populated yet.
+          <div className="py-20 text-center text-white/20 font-outfit border border-white/5 rounded-[2rem]">
+            Awaiting curation...
           </div>
         ) : (
           <div className="flex flex-col items-center">
@@ -84,29 +108,22 @@ export function ServicesShowcase() {
                 <motion.div
                   key={svc.id}
                   ref={el => { if (el) cardsRef.current[idx] = el; }}
-                  whileHover={{ scale: 1.02, y: -10 }}
+                  whileHover={{ y: -10 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  className={`p-10 rounded-[3rem] bg-gradient-to-br ${svc.color} border border-white/50 shadow-2xl shadow-black/5 backdrop-blur-xl relative overflow-hidden group`}
+                  className="p-10 rounded-[2.5rem] bg-background/40 border border-white/5 shadow-2xl backdrop-blur-xl relative overflow-hidden group hover:border-primary/30 hover:bg-background/60 transition-colors duration-500"
                 >
-                  {/* Glass Noise overlay */}
-                  <div className="absolute inset-0 opacity-20 mix-blend-overlay pointer-events-none">
-                    <svg className="w-full h-full">
-                       <filter id="noiseFilterSub">
-                          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/>
-                       </filter>
-                       <rect width="100%" height="100%" filter="url(#noiseFilterSub)" />
-                    </svg>
-                  </div>
-
-                  <div className="relative z-10">
-                    <h3 className="text-3xl font-heading font-semibold text-foreground mb-4">{svc.title}</h3>
-                    <p className="text-muted-foreground mb-8 leading-relaxed font-medium">{svc.description}</p>
-                    <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/60 text-[10px] font-black uppercase tracking-[0.2em] text-foreground/60 backdrop-blur-md border border-white/30">
+                  <div className="relative z-10 h-full flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-3xl font-heading font-bold text-white mb-4 group-hover:text-primary transition-colors duration-300">{svc.title}</h3>
+                      <p className="text-white/50 font-outfit leading-relaxed font-light mb-8 line-clamp-3">{svc.description}</p>
+                    </div>
+                    <div className="inline-flex items-center self-start px-4 py-2 rounded-full bg-white/5 text-[10px] font-black uppercase tracking-[0.2em] text-white/70 border border-white/10 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                       {svc.style}
                     </div>
                   </div>
                   
-                  <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-white/40 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-700 ease-in-out"></div>
+                  {/* Subtle Amber Glow on Hover */}
+                  <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-primary/10 blur-[60px] rounded-full group-hover:scale-150 group-hover:bg-primary/20 transition-transform duration-700 ease-in-out"></div>
                 </motion.div>
               ))}
             </div>
@@ -115,13 +132,14 @@ export function ServicesShowcase() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mt-16"
+              className="mt-20"
             >
               <a 
                 href="/services" 
-                className="inline-flex items-center gap-3 px-8 py-4 bg-foreground text-background rounded-full font-bold uppercase tracking-widest text-sm hover:scale-105 hover:bg-primary hover:text-primary-foreground hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300"
+                className="inline-flex items-center gap-4 px-10 py-5 bg-white text-black rounded-full font-bold uppercase tracking-[0.15em] text-sm hover:scale-[1.02] hover:bg-primary hover:text-white hover:shadow-[0_0_40px_rgba(255,204,0,0.3)] transition-all duration-300"
               >
-                Explore Full Services <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Explore Full Services 
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </a>
             </motion.div>
           </div>

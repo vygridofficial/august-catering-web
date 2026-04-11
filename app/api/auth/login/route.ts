@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const { password, rememberMe } = await request.json();
     
-    // Default fallback hash is 'gatewaykitchen2026' SHA-256
+    // Default fallback hash is 'augustcatering2026' SHA-256
     const expectedHashHex = process.env.ADMIN_PASSWORD_HASH || '2addbec3180bc56d1e9e34515259492a8378acca15d272a92699e61a02001903';
     
     const inputHash = crypto.createHash('sha256').update(password).digest();

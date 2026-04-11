@@ -102,7 +102,7 @@ export default function HeroAdmin() {
       { url: '/images/hero-1.png', alt: 'Premium Kerala Wedding Feast' },
       { url: '/images/hero-2.png', alt: 'Grand Corporate Gala Event' },
       { url: '/images/hero-3.png', alt: 'Expert Chef Plating Precision' },
-      { url: '/images/hero-4.png', alt: 'Gateway Kitchen Catering Setup' },
+      { url: '/images/hero-4.png', alt: 'August Catering Catering Setup' },
     ];
 
     toast.promise(Promise.all(mocks.map(m => addHeroImage(m.url, m.alt))), {

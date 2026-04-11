@@ -5,7 +5,7 @@ import { Footer } from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'Gateway Kitchen terms of service placeholder page.',
+  description: 'August Catering terms of service placeholder page.',
 };
 
 export default function TermsPage() {
@@ -20,7 +20,7 @@ export default function TermsPage() {
           </div>
           <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
             <p>
-              This is a placeholder terms page for Gateway Kitchen. It covers the basic rules for using the website and submitting
+              This is a placeholder terms page for August Catering. It covers the basic rules for using the website and submitting
               catering enquiries.
             </p>
             <p>

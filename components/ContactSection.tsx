@@ -27,7 +27,7 @@ export function ContactSection() {
   }, []);
 
   const phone = settings?.phone || '+91 94951 84661';
-  const email = settings?.email || 'info@gatewaykitchen.in';
+  const email = settings?.email || 'info@augustcatering.in';
   const locationName = 'Thiruvaniyoor, Kochi, Kerala';
   const locationUrl = settings?.location || `https://www.google.com/maps/search/Gateway+Kitchen+Kochi`;
   const phoneHref = `tel:${String(phone).replace(/[^+\d]/g, '')}`;

@@ -12,7 +12,7 @@ self.addEventListener('fetch', (event) => {
 
 self.addEventListener('push', (event) => {
   let payload = {
-    title: 'Gateway Kitchen Admin',
+    title: 'August Catering Admin',
     body: 'New activity received.',
     target: '/admin',
   };
@@ -25,7 +25,7 @@ self.addEventListener('push', (event) => {
     }
   }
 
-  const title = payload.title || 'Gateway Kitchen Admin';
+  const title = payload.title || 'August Catering Admin';
   const options = {
     body: payload.body || 'New activity received.',
     icon: '/logo-nobg.png',

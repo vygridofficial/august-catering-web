@@ -104,7 +104,7 @@ export function GallerySection({ showHeader = true, limit = 12 }: GallerySection
               ) : (
                 <Image
                   src={img.url}
-                  alt={img.alt || 'Gateway Kitchen Gallery Item'}
+                  alt={img.alt || 'August Catering Gallery Item'}
                   width={600}
                   height={800}
                   quality={90}
