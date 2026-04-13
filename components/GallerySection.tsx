@@ -52,21 +52,21 @@ export function GallerySection({ showHeader = true, limit = 12 }: GallerySection
   };
 
   return (
-    <section id="gallery" className="py-48 bg-transparent relative z-10 font-outfit">
+    <section id="gallery" className="py-24 md:py-48 bg-transparent relative z-10 font-outfit">
       {/* Background Ambience */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-1/4 w-[500px] h-[500px] bg-primary/5 blur-[150px] rounded-full" />
-        <div className="absolute bottom-1/4 -right-1/4 w-[500px] h-[500px] bg-primary/5 blur-[150px] rounded-full" />
+        <div className="absolute top-1/4 -left-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/5 blur-[100px] md:blur-[150px] rounded-full" />
+        <div className="absolute bottom-1/4 -right-1/4 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-primary/5 blur-[100px] md:blur-[150px] rounded-full" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
         {showHeader && (
-          <div className="mb-32 text-center">
+          <div className="mb-16 md:mb-32 text-center">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="flex items-center justify-center gap-3 mb-8"
+              className="flex items-center justify-center gap-3 mb-6 md:mb-8"
             >
               <Aperture size={16} className="text-primary animate-spin-slow" />
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">Our Visual Gallery</span>
@@ -77,7 +77,7 @@ export function GallerySection({ showHeader = true, limit = 12 }: GallerySection
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1, ease: [0.19, 1, 0.22, 1] }}
-              className="text-7xl md:text-9xl font-heading font-black text-white tracking-tighter leading-[0.8] uppercase"
+              className="text-6xl md:text-9xl font-heading font-black text-white tracking-tighter leading-[0.9] md:leading-[0.8] uppercase"
             >
               Moments <br /> <span className="text-primary italic font-serif">Captured.</span>
             </motion.h2>
@@ -87,7 +87,7 @@ export function GallerySection({ showHeader = true, limit = 12 }: GallerySection
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.5 }}
-              className="mt-12 text-white/30 max-w-2xl mx-auto font-medium text-lg leading-relaxed"
+              className="mt-8 md:mt-12 text-white/30 max-w-2xl mx-auto font-medium text-base md:text-lg leading-relaxed px-4 md:px-0"
             >
               A glimpse into the exceptional events and culinary journeys curated by August Catering.
             </motion.p>

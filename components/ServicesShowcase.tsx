@@ -24,19 +24,19 @@ export function ServicesShowcase() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="services" className="relative py-64 bg-[#050505] overflow-hidden border-t border-white/5 font-outfit">
+    <section ref={sectionRef} id="services" className="relative py-24 md:py-64 bg-[#050505] overflow-hidden border-t border-white/5 font-outfit">
       
       {/* Cinematic Pulse Ambience */}
-      <div className="absolute top-0 right-0 w-[1000px] h-[1000px] bg-primary/5 rounded-full blur-[180px] pointer-events-none opacity-50" />
-      <div className="absolute bottom-0 left-[-10%] w-[800px] h-[800px] bg-white/[0.02] rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[600px] md:w-[1000px] h-[600px] md:h-[1000px] bg-primary/5 rounded-full blur-[120px] md:blur-[180px] pointer-events-none opacity-50" />
+      <div className="absolute bottom-0 left-[-10%] w-[400px] md:w-[800px] h-[400px] md:h-[800px] bg-white/[0.02] rounded-full blur-[100px] md:blur-[150px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-4xl mb-32 text-center md:text-left">
+        <div className="max-w-4xl mb-16 md:mb-32 text-center md:text-left">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex items-center justify-center md:justify-start gap-3 mb-8"
+            className="flex items-center justify-center md:justify-start gap-3 mb-6 md:mb-8"
           >
             <ChefHat size={14} className="text-primary" />
             <span className="text-[10px] font-bold uppercase tracking-widest text-primary">Signature Collections</span>
@@ -46,7 +46,7 @@ export function ServicesShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
             viewport={{ once: true }}
-            className="text-[clamp(3.5rem,8vw,6rem)] font-heading font-black text-white tracking-tighter leading-[0.8] uppercase"
+            className="text-5xl sm:text-6xl md:text-[clamp(3.5rem,8vw,6rem)] font-heading font-black text-white tracking-tighter leading-[0.9] md:leading-[0.8] uppercase"
           >
             Gastronomic <br /><span className="text-primary italic font-serif">IDENTITY.</span>
           </motion.h2>
@@ -55,7 +55,7 @@ export function ServicesShowcase() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 1 }}
-            className="mt-10 text-xl md:text-2xl text-white/40 font-medium max-w-2xl leading-relaxed mx-auto md:mx-0"
+            className="mt-6 md:mt-10 text-lg md:text-2xl text-white/40 font-medium max-w-2xl leading-relaxed mx-auto md:mx-0"
           >
             A curated spectrum of service modules, engineered for elite hospitality and uncompromising quality.
           </motion.p>
@@ -75,7 +75,7 @@ export function ServicesShowcase() {
           </div>
         ) : (
           <div className="flex flex-col items-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 w-full">
               {services.slice(0, 3).map((svc, i) => (
                 <motion.div 
                   key={svc.id}
@@ -83,21 +83,21 @@ export function ServicesShowcase() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 1, delay: i * 0.2, ease: [0.19, 1, 0.22, 1] }}
-                  className="relative h-[650px] w-full p-10 md:p-14 rounded-[3.5rem] bg-[#0A0A0A] border border-white/10 shadow-2xl overflow-hidden flex flex-col justify-between group hover:border-primary/50 transition-all duration-700"
+                  className="relative h-[550px] md:h-[650px] w-full p-8 md:p-14 rounded-[2.5rem] md:rounded-[3.5rem] bg-[#0A0A0A] border border-white/10 shadow-2xl overflow-hidden flex flex-col justify-between group hover:border-primary/50 transition-all duration-700"
                 >
                   {/* Atmospheric Glow */}
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-primary/10 to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-1000" />
                   
                   <div className="relative z-10 flex flex-col justify-between h-full">
                     <div>
-                      <div className="flex items-center justify-between mb-12">
-                         <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
-                            <Sparkles size={24} className="text-white/40 group-hover:text-primary transition-colors" />
+                      <div className="flex items-center justify-between mb-8 md:mb-12">
+                         <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-primary/50 transition-all duration-500">
+                            <Sparkles size={20} className="md:w-6 md:h-6 text-white/40 group-hover:text-primary transition-colors" />
                          </div>
-                         <span className="text-[11px] font-black tracking-widest text-white/20 uppercase">Module // 0{i+1}</span>
+                         <span className="text-[10px] md:text-[11px] font-black tracking-widest text-white/20 uppercase">Module // 0{i+1}</span>
                       </div>
                       
-                      <h3 className="text-4xl md:text-5xl font-heading font-black text-white mb-8 uppercase tracking-tighter leading-[0.85] group-hover:text-primary transition-colors duration-500">{svc.title}</h3>
+                      <h3 className="text-3xl md:text-5xl font-heading font-black text-white mb-6 md:mb-8 uppercase tracking-tighter leading-[0.9] md:leading-[0.85] group-hover:text-primary transition-colors duration-500">{svc.title}</h3>
                       <p className="text-white/40 text-lg font-medium leading-relaxed mb-8 line-clamp-4 group-hover:text-white/60 transition-colors duration-500">{svc.description}</p>
                     </div>
                     

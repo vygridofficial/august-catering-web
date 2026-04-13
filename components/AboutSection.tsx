@@ -43,54 +43,54 @@ export function AboutSection() {
     <section
       ref={containerRef}
       id="about"
-      className="relative py-48 bg-transparent text-foreground overflow-hidden font-outfit"
+      className="relative py-24 md:py-48 bg-transparent text-foreground overflow-hidden font-outfit"
     >
       {/* Cinematic Background Typography */}
       <motion.div
         style={{ x: y2, opacity: 0.02 }}
-        className="absolute top-20 left-0 whitespace-nowrap pointer-events-none select-none"
+        className="absolute top-10 md:top-20 left-0 whitespace-nowrap pointer-events-none select-none"
       >
-        <h2 className="text-[20vw] font-heading font-black uppercase text-white tracking-widest leading-none">
+        <h2 className="text-[30vw] md:text-[20vw] font-heading font-black uppercase text-white tracking-widest leading-none">
           PREMIUM CATERING
         </h2>
       </motion.div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center">
           
           {/* Content Array */}
           <motion.div
-            style={{ y: y1, opacity }}
-            className="space-y-12"
+            style={{ y: typeof window !== 'undefined' && window.innerWidth > 768 ? y1 : 0, opacity }}
+            className="space-y-8 md:space-y-12"
           >
             <div className="flex items-center gap-3">
-               <div className="w-12 h-px bg-primary" />
-               <p className="text-primary text-[10px] font-bold uppercase tracking-widest">Our Mission & Values</p>
+               <div className="w-8 md:w-12 h-px bg-primary" />
+               <p className="text-primary text-[8px] md:text-[10px] font-bold uppercase tracking-widest">Our Mission & Values</p>
             </div>
             
-            <h2 className="text-6xl md:text-8xl font-heading font-black text-white tracking-tighter leading-[0.8] uppercase">
+            <h2 className="text-5xl md:text-8xl font-heading font-black text-white tracking-tighter leading-[0.9] md:leading-[0.8] uppercase">
               The Story of <br /> <span className="text-primary italic font-serif">August.</span>
             </h2>
             
-            <div className="space-y-8">
-                <p className="text-2xl text-white/70 font-light leading-relaxed max-w-xl">
+            <div className="space-y-6 md:space-y-8">
+                <p className="text-xl md:text-2xl text-white/70 font-light leading-relaxed max-w-xl">
                   Based in Ernakulam, <span className="text-white font-bold">August Catering</span> provides a refined approach to event dining.
                 </p>
-                <p className="text-lg text-white/40 font-light leading-relaxed max-w-xl">
+                <p className="text-base md:text-lg text-white/40 font-light leading-relaxed max-w-xl">
                   We specialize in crafting bespoke menus that blend traditional heritage with modern culinary techniques. Our vision is to elevate every occasion through exceptional food and service.
                 </p>
             </div>
 
-            <div className="flex flex-wrap gap-6">
-              <Link href="/contact">
-                <button className="group relative px-10 py-5 bg-white text-black rounded-2xl text-[10px] font-bold uppercase tracking-wider overflow-hidden transition-all shadow-2xl">
-                  <span className="relative z-10 flex items-center gap-3">Contact Us <ArrowRight size={14} /></span>
+            <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
+              <Link href="/contact" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto group relative px-8 py-4 md:px-10 md:py-5 bg-white text-black rounded-2xl text-[10px] font-bold uppercase tracking-wider overflow-hidden transition-all shadow-2xl">
+                  <span className="relative z-10 flex items-center justify-center gap-3">Contact Us <ArrowRight size={14} /></span>
                   <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]" />
                 </button>
               </Link>
               
-              <Link href="/gallery">
-                <button className="px-10 py-5 bg-white/5 border border-white/5 text-white/40 rounded-2xl text-[10px] font-bold uppercase tracking-wider hover:bg-white/10 hover:text-white hover:border-white/20 transition-all">
+              <Link href="/gallery" className="w-full sm:w-auto">
+                <button className="w-full sm:w-auto px-8 py-4 md:px-10 md:py-5 bg-white/5 border border-white/5 text-white/40 rounded-2xl text-[10px] font-bold uppercase tracking-wider hover:bg-white/10 hover:text-white hover:border-white/20 transition-all">
                   View Gallery
                 </button>
               </Link>

@@ -127,14 +127,14 @@ export function SocialSidebar() {
   return (
     <>
       {/* Cinematic Mobile HUD */}
-      <div className="fixed right-4 bottom-4 z-[200] md:hidden">
+      <div className="fixed right-4 bottom-4 z-[200] lg:hidden">
         <AnimatePresence>
           {isOpen && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                className="mb-4 flex flex-col gap-3 items-end"
+                className="mb-4 flex flex-col gap-3 items-end max-h-[60vh] overflow-y-auto pr-1"
               >
                 {links.map((link, index) => (
                   <motion.a
@@ -146,11 +146,11 @@ export function SocialSidebar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => setIsOpen(false)}
-                    className="flex min-w-[164px] items-center justify-between gap-3 py-2.5 px-3.5 rounded-xl bg-black/70 backdrop-blur-3xl border border-white/10 text-white/70 active:bg-primary/10 active:text-primary transition-all shadow-2xl"
+                    className="flex min-w-[140px] items-center justify-between gap-3 py-2.5 px-3.5 rounded-xl bg-black/80 backdrop-blur-3xl border border-white/10 text-white/70 active:bg-primary/10 active:text-primary transition-all shadow-2xl"
                   >
                     <span className="text-[10px] font-bold uppercase tracking-[0.14em]">{link.name}</span>
-                    <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center">
-                      <link.icon className="w-4 h-4" />
+                    <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center">
+                      <link.icon className="w-3.5 h-3.5" />
                     </div>
                   </motion.a>
                 ))}
@@ -169,7 +169,7 @@ export function SocialSidebar() {
       </div>
 
       {/* Cinematic Desktop Sidebar - Signal Array */}
-      <div className="fixed right-8 top-1/2 -translate-y-1/2 z-[200] hidden md:flex flex-col gap-5 font-outfit">
+      <div className="fixed right-8 top-1/2 -translate-y-1/2 z-[200] hidden lg:flex flex-col gap-5 font-outfit">
         {links.map((link, index) => (
           <motion.a
             key={link.name}

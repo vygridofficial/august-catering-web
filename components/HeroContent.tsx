@@ -46,27 +46,27 @@ export function HeroContent() {
 
   return (
     <motion.div
-      className="absolute inset-0 flex flex-col items-start justify-start md:justify-center p-4 sm:p-6 md:p-12 lg:p-20 pt-20 sm:pt-24 md:pt-8 z-20 pointer-events-none w-full lg:max-w-[62vw] xl:max-w-[58vw]"
+      className="absolute inset-0 flex flex-col items-center md:items-start justify-center p-6 md:p-12 lg:p-20 pt-32 sm:pt-40 md:pt-8 z-20 pointer-events-none w-full lg:max-w-[62vw] xl:max-w-[58vw]"
       variants={container}
       initial="hidden"
       animate="show"
     >
-      <motion.div variants={item} className="overflow-hidden w-full">
-        <h1 className="max-w-[20ch] text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[clamp(4.5rem,6vw,6.25rem)] 2xl:text-[6.75rem] font-heading font-extrabold tracking-tighter text-foreground leading-[1.02] text-balance drop-shadow-2xl">
+      <motion.div variants={item} className="overflow-hidden w-full text-center md:text-left">
+        <h1 className="max-w-[20ch] text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[clamp(4.5rem,6vw,6.25rem)] 2xl:text-[6.75rem] font-heading font-black tracking-tighter text-foreground leading-[1.05] md:leading-[1.02] text-balance drop-shadow-2xl">
           Bringing <br className="hidden md:block" />Authentic Taste{' '} <br />
           <span className="text-primary italic"> To Your Events</span>
         </h1>
       </motion.div>
 
-      <motion.div variants={item} className="w-full">
-        <p className="mt-2 md:mt-6 text-sm sm:text-lg md:text-xl text-foreground/80 max-w-xs sm:max-w-sm md:max-w-xl font-light leading-relaxed">
+      <motion.div variants={item} className="w-full text-center md:text-left">
+        <p className="mt-4 md:mt-6 text-sm sm:text-lg md:text-xl text-foreground/80 max-w-xs sm:max-w-sm md:max-w-xl font-light leading-relaxed mx-auto md:mx-0">
           Elevating every occasion. August Catering brings premium culinary excellence tailored to your grandest visions.
         </p>
       </motion.div>
 
-      <motion.div variants={item} className="mt-4 sm:mt-5 md:mt-10 pointer-events-auto flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5">
-        <Link href="/services">
-          <button className="px-5 py-3 sm:px-10 sm:py-5 bg-primary text-primary-foreground rounded-full font-bold uppercase tracking-widest text-[11px] sm:text-sm hover:scale-105 transition-all shadow-2xl shadow-primary/30 flex items-center gap-3">
+      <motion.div variants={item} className="mt-8 sm:mt-10 pointer-events-auto flex flex-col sm:flex-row items-center md:items-center gap-4 sm:gap-5">
+        <Link href="/services" className="w-full sm:w-auto">
+          <button className="w-full sm:w-auto px-8 py-4 sm:px-10 sm:py-5 bg-primary text-primary-foreground rounded-full font-bold uppercase tracking-widest text-[11px] sm:text-sm hover:scale-105 transition-all shadow-2xl shadow-primary/30 flex items-center justify-center gap-3">
             View Our Services
             <span className="opacity-50 tracking-normal group-hover:translate-x-1 transition-transform">→</span>
           </button>
@@ -75,7 +75,7 @@ export function HeroContent() {
         <Link 
           href="/#reviews" 
           onClick={(e) => handleSmoothScroll(e, '/#reviews')}
-          className="group flex items-center gap-3 px-5 py-2.5 rounded-full bg-background/30 hover:bg-background/50 border border-border/50 shadow-xl shadow-black/5 transition-all backdrop-blur-2xl overflow-hidden relative max-w-[92vw]"
+          className="group flex items-center gap-3 px-6 py-3 rounded-full bg-background/30 hover:bg-background/50 border border-border/50 shadow-xl shadow-black/5 transition-all backdrop-blur-2xl overflow-hidden relative w-full sm:w-auto justify-center"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
           <div className="flex items-center gap-1.5 relative z-10 text-yellow-400">

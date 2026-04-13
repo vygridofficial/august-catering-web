@@ -69,9 +69,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
 
       {/* Mobile Top Bar - Liquid Glass */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-20 border-b border-white/5 bg-[#050505]/40 backdrop-blur-2xl flex items-center justify-between px-6 z-40">
+      <div className="lg:hidden fixed top-0 left-0 right-0 h-16 md:h-20 border-b border-white/5 bg-[#050505]/40 backdrop-blur-2xl flex items-center justify-between px-4 md:px-6 z-40">
         <div className="flex items-center gap-3">
-          <div className="relative w-10 h-10">
+          <div className="relative w-8 h-8 md:w-10 md:h-10">
             <Image 
               src="/logo.jpeg" 
               alt="August" 
@@ -79,13 +79,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className="object-contain rounded-full border border-white/10"
             />
           </div>
-          <span className="font-heading font-black text-white text-lg tracking-tighter uppercase">August</span>
+          <span className="font-heading font-black text-white text-base md:text-lg tracking-tighter uppercase">August</span>
         </div>
         <button 
           onClick={() => setIsSidebarOpen(true)}
           className="p-2 text-white/60 hover:text-primary transition-colors bg-white/5 rounded-xl border border-white/10"
         >
-          <Menu size={20} />
+          <Menu size={18} className="md:w-5 md:h-5" />
         </button>
       </div>
 
@@ -97,7 +97,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsSidebarOpen(false)}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[50] md:hidden"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[50] lg:hidden"
           />
         )}
       </AnimatePresence>
@@ -105,12 +105,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar Drawer - Dark Chrome */}
       <aside className={`
         fixed inset-y-0 left-0 z-[60] w-72 bg-[#080808]/80 backdrop-blur-3xl border-r border-white/5 flex flex-col py-8 transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]
-        md:relative md:translate-x-0
+        lg:relative lg:translate-x-0
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
-        <div className="px-8 mb-12 flex items-center justify-between">
+        <div className="px-8 mb-8 md:mb-12 flex items-center justify-between">
           <Link href="/" className="flex flex-col items-start translate-x-[-10%] group">
-            <div className="relative w-24 h-24 mb-2 group-hover:scale-105 transition-transform">
+            <div className="relative w-20 h-20 md:w-24 md:h-24 mb-2 group-hover:scale-105 transition-transform">
               <Image 
                 src="/logo.jpeg" 
                 alt="August Catering" 
@@ -125,7 +125,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </Link>
           <button 
             onClick={() => setIsSidebarOpen(false)}
-            className="md:hidden p-2 text-white/20 hover:text-white transition-colors"
+            className="lg:hidden p-2 text-white/20 hover:text-white transition-colors"
           >
             <X size={20} />
           </button>
@@ -141,28 +141,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 href={link.href}
                 onClick={() => setIsSidebarOpen(false)}
                 className={`
-                  relative flex items-center justify-between px-6 py-4 rounded-2xl transition-all duration-500 font-bold text-[13px] uppercase tracking-wider
+                  relative flex items-center justify-between px-4 md:px-6 py-3.5 md:py-4 rounded-xl md:rounded-2xl transition-all duration-500 font-bold text-[11px] md:text-[13px] uppercase tracking-wider
                   ${isActive 
                     ? 'bg-primary text-black shadow-[0_10px_30px_rgba(255,204,0,0.15)] scale-[1.02]' 
                     : 'text-white/30 hover:text-white hover:bg-white/5'
                   }
                 `}
               >
-                <div className="flex items-center gap-4 relative z-10">
-                  <link.icon size={18} className={isActive ? 'text-black' : 'text-primary/60'} />
+                <div className="flex items-center gap-3 md:gap-4 relative z-10">
+                  <link.icon size={isActive ? 18 : 16} className={isActive ? 'text-black' : 'text-primary/60'} />
                   <span className="flex items-center gap-2">
                     {link.name}
                     {showUnread ? (
-                      <span className="inline-flex min-w-5 h-5 items-center justify-center rounded-full bg-white text-[10px] font-black text-black">
+                      <span className="inline-flex min-w-4 md:min-w-5 h-4 md:h-5 items-center justify-center rounded-full bg-white text-[9px] md:text-[10px] font-black text-black">
                         {unreadCount > 99 ? '99+' : unreadCount}
                       </span>
                     ) : null}
                   </span>
                 </div>
                 {isActive && (
-                  <motion.div layoutId="nav-active" className="absolute inset-0 bg-primary rounded-2xl z-0" />
+                  <motion.div layoutId="nav-active" className="absolute inset-0 bg-primary rounded-xl md:rounded-2xl z-0" />
                 )}
-                {isActive && <ChevronRight size={14} className="opacity-40 relative z-10" />}
+                {isActive && <ChevronRight size={14} className="opacity-40 hidden md:block relative z-10" />}
               </Link>
             );
           })}
@@ -184,7 +184,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </aside>
 
       {/* Main Content Arena */}
-      <main className="flex-1 overflow-y-auto overscroll-y-contain pt-28 pb-12 px-6 md:p-12 lg:p-16 custom-scrollbar w-full relative z-10">
+      <main className="flex-1 overflow-y-auto overscroll-y-contain pt-24 md:pt-28 pb-12 px-4 md:px-12 lg:px-16 custom-scrollbar w-full relative z-10">
         <motion.div 
           key={pathname}
           initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}

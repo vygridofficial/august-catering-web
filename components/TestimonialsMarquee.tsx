@@ -44,27 +44,27 @@ export function TestimonialsMarquee() {
   };
 
   return (
-    <section id="reviews" className="py-48 bg-transparent relative z-10 font-outfit overflow-hidden">
+    <section id="reviews" className="py-24 md:py-48 bg-transparent relative z-10 font-outfit overflow-hidden">
       {/* Ambient background aura */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[600px] bg-primary/5 blur-[160px] pointer-events-none rounded-full" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[400px] md:h-[600px] bg-primary/5 blur-[100px] md:blur-[160px] pointer-events-none rounded-full" />
 
-      <div className="container mx-auto px-6 mb-24 text-center relative z-10">
+      <div className="container mx-auto px-6 mb-16 md:mb-24 text-center relative z-10">
         <div className="flex items-center justify-center gap-3 mb-6">
            <MessageSquareQuote size={16} className="text-primary animate-pulse" />
            <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">Client Feedback</span>
         </div>
-        <h2 className="text-6xl md:text-8xl font-heading font-black text-white tracking-tighter leading-[0.8] uppercase">
+        <h2 className="text-5xl md:text-8xl font-heading font-black text-white tracking-tighter leading-[0.9] md:leading-[0.8] uppercase">
           Kind <br /> <span className="text-primary italic font-serif">Words.</span>
         </h2>
         
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6">
+        <div className="mt-10 md:mt-12 flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 px-4">
            <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setIsModalOpen(true)}
-            className="group relative px-10 py-5 bg-white text-black rounded-2xl text-[10px] font-bold uppercase tracking-widest overflow-hidden transition-all shadow-2xl"
+            className="w-full sm:w-auto group relative px-8 py-4 md:px-10 md:py-5 bg-white text-black rounded-2xl text-[10px] font-bold uppercase tracking-widest overflow-hidden transition-all shadow-2xl"
           >
-            <span className="relative z-10 flex items-center gap-3">
+            <span className="relative z-10 flex items-center justify-center gap-3">
               <Plus size={14} /> Share Your Story
             </span>
             <div className="absolute inset-0 bg-primary translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)]" />
@@ -76,7 +76,7 @@ export function TestimonialsMarquee() {
             href={justdialUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-10 py-5 bg-white/5 border border-white/5 text-white/40 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 hover:text-white hover:border-primary/20 transition-all shadow-2xl flex items-center gap-3"
+            className="w-full sm:w-auto px-8 py-4 md:px-10 md:py-5 bg-white/5 border border-white/5 text-white/40 rounded-2xl text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 hover:text-white hover:border-primary/20 transition-all shadow-2xl flex items-center justify-center gap-3"
           >
             <Star size={14} className="text-primary" />
             Read on Justdial

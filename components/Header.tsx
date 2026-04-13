@@ -90,10 +90,10 @@ export function Header() {
           y: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
           opacity: { duration: 0.4 },
         }}
-        className={`fixed top-0 left-0 right-0 z-[100] font-outfit transition-all duration-500 ${scrolled ? 'py-4' : 'py-10'} ${isHomeRoute ? 'lg:hidden' : ''}`}
+        className={`fixed top-0 left-0 right-0 z-[100] font-outfit transition-all duration-500 ${scrolled ? 'py-2 md:py-4' : 'py-4 md:py-10'} ${isHomeRoute ? 'lg:hidden' : ''}`}
       >
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="relative px-8 py-4 rounded-[2rem] border overflow-hidden flex items-center justify-between">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="relative px-4 md:px-8 py-3 md:py-4 rounded-3xl md:rounded-[2rem] border overflow-hidden flex items-center justify-between">
             {/* Liquid Background */}
             <motion.div 
                animate={{ 
@@ -103,8 +103,8 @@ export function Header() {
                }}
                className="absolute inset-0 z-[-1]"
             />
-            <Link href="/" onClick={handleHomeClick} className="flex items-center gap-4 group relative">
-              <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl md:rounded-[1.5rem] overflow-hidden border border-white/20 group-hover:border-primary/50 transition-all duration-700 bg-black shadow-2xl">
+            <Link href="/" onClick={handleHomeClick} className="flex items-center gap-3 md:gap-4 group relative">
+              <div className="relative w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-xl md:rounded-[1.5rem] overflow-hidden border border-white/20 group-hover:border-primary/50 transition-all duration-700 bg-black shadow-2xl">
                 <Image
                   src="/logo.jpeg"
                   alt="August Catering Logo"
@@ -114,8 +114,8 @@ export function Header() {
                 />
               </div>
               <div className="flex flex-col">
-                  <span className="text-xl font-heading font-black tracking-tighter text-white leading-none">AUGUST</span>
-                  <span className="text-[10px] font-bold tracking-widest text-primary uppercase mt-1">CATERING</span>
+                  <span className="text-lg md:text-xl font-heading font-black tracking-tighter text-white leading-none">AUGUST</span>
+                  <span className="text-[8px] md:text-[10px] font-bold tracking-widest text-primary uppercase mt-1">CATERING</span>
               </div>
             </Link>
 
@@ -147,11 +147,11 @@ export function Header() {
 
             {/* Mobile Toggle */}
             <button
-              className="lg:hidden w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all"
+              className="lg:hidden w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all shadow-xl"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-label="Open Menu"
             >
-              <Menu size={24} />
+              <Menu size={20} className="md:w-6 md:h-6" />
             </button>
           </div>
         </div>

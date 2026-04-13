@@ -69,19 +69,19 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-[#050505] text-white py-32 relative overflow-hidden border-t border-white/5 font-outfit">
+    <footer className="bg-[#050505] text-white py-16 md:py-32 relative overflow-hidden border-t border-white/5 font-outfit">
       {/* Cinematic Grain & Ambience */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-150 contrast-150" />
-      <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/5 blur-[140px] rounded-full" />
+      <div className="absolute top-[-20%] left-[-10%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-primary/5 blur-[100px] md:blur-[140px] rounded-full" />
       
       <div className="container mx-auto px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 md:gap-16 lg:gap-24 items-start">
           
           {/* Brand */}
-          <div className="lg:col-span-5 space-y-12">
+          <div className="md:col-span-2 lg:col-span-5 space-y-8 md:space-y-12">
             <Link href="/" className="inline-block group">
               <div className="flex items-center gap-4">
-                <div className="relative w-16 h-16 rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-700">
+                <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-xl md:rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-700">
                   <Image
                     src="/logo.jpeg"
                     alt="August Catering Logo"
@@ -91,13 +91,13 @@ export function Footer() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-heading font-black tracking-tighter text-white leading-none">AUGUST</h3>
-                  <p className="text-[10px] font-bold tracking-widest text-primary uppercase mt-1">CATERING</p>
+                  <h3 className="text-xl md:text-2xl font-heading font-black tracking-tighter text-white leading-none">AUGUST</h3>
+                  <p className="text-[8px] md:text-[10px] font-bold tracking-widest text-primary uppercase mt-1">CATERING</p>
                 </div>
               </div>
             </Link>
             
-            <p className="text-white/40 max-w-md text-xl font-medium leading-[1.6]">
+            <p className="text-white/40 max-w-md text-lg md:text-xl font-medium leading-[1.6]">
               Delivering exceptional culinary experiences and meticulously choreographed events since 2003. Kerala's premier catering service.
             </p>
             
@@ -111,25 +111,25 @@ export function Footer() {
                   key={i}
                   href={social.href} 
                   target="_blank" 
-                  className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-500"
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-500"
                 >
-                  <social.icon size={20} />
+                  <social.icon size={18} className="md:w-5 md:h-5" />
                 </a>
               ))}
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="lg:col-span-3 space-y-10">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">Our Links</h4>
-            <ul className="space-y-4">
+          <div className="lg:col-span-3 space-y-6 md:space-y-10">
+            <h4 className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-primary/60">Our Links</h4>
+            <ul className="grid grid-cols-2 md:grid-cols-1 gap-4 md:gap-4">
               {navLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="group flex items-center gap-2 text-white/40 hover:text-white transition-all duration-500 text-lg font-bold"
+                    className="group flex items-center gap-2 text-white/40 hover:text-white transition-all duration-500 text-base md:text-lg font-bold"
                   >
-                    <span className="w-0 group-hover:w-4 h-px bg-primary transition-all duration-500" />
+                    <span className="hidden md:block w-0 group-hover:w-4 h-px bg-primary transition-all duration-500" />
                     {link.name}
                   </Link>
                 </li>
@@ -138,14 +138,14 @@ export function Footer() {
           </div>
 
           {/* Contact Information */}
-          <div className="lg:col-span-4 space-y-10">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary">Contact Us</h4>
-            <div className="space-y-8">
+          <div className="lg:col-span-4 space-y-8 md:space-y-10">
+            <h4 className="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-primary/60">Contact Us</h4>
+            <div className="space-y-6 md:space-y-8">
               <a href={emailHref} className="group block">
-                <p className="text-[9px] font-bold uppercase tracking-wider text-white/20 mb-2">Email Us</p>
-                <div className="flex items-center justify-between border-b border-white/5 pb-4 group-hover:border-primary/50 transition-colors">
-                  <span className="text-xl font-bold text-white/60 group-hover:text-white transition-colors truncate">{email}</span>
-                  <ArrowUpRight size={18} className="text-white/20 group-hover:text-primary transition-all" />
+                <p className="text-[8px] md:text-[9px] font-bold uppercase tracking-wider text-white/20 mb-2">Email Us</p>
+                <div className="flex items-center justify-between border-b border-white/5 pb-3 md:pb-4 group-hover:border-primary/50 transition-colors">
+                  <span className="text-lg md:text-xl font-bold text-white/60 group-hover:text-white transition-colors truncate">{email}</span>
+                  <ArrowUpRight size={16} className="text-white/20 group-hover:text-primary transition-all" />
                 </div>
               </a>
               <a href={phoneHref} className="group block">
